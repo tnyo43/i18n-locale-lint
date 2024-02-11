@@ -3,19 +3,19 @@ use std::fs;
 use serde_json::{Result, Value};
 
 
-fn read_json() -> Result<()> {
-    let data = fs::read_to_string("data.json");
-    if let Ok(x) = data {
-        let parsed_data: Value = serde_json::from_str(&x)?;
+fn read_json_file(path: &str) -> Result<Value> {
+    let data = fs::read_to_string(path);
+    let content = if let Ok(content) = data { content } else { "failed to parse".to_string() };
 
-        println!("{:?}", parsed_data);
-    }
+    let parsed_data: Value = serde_json::from_str(&content)?;
 
-    Ok(())
+    println!("{:?}", parsed_data);
+    Ok(parsed_data)
 }
 
 fn main() {
-    let _ = read_json();
+    let _ = read_json_file("example/data1.json");
+    let _ = read_json_file("example/data2.json");
 
     let args: Vec<String> = env::args().collect();
 
