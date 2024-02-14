@@ -1,39 +1,49 @@
 use serde_json::Value;
 
-pub fn is_same_type(base: &Value, target: &Value) -> bool {
+#[derive(Debug, PartialEq)]
+struct Diff<'a> {
+    keyToValue: Vec<String>,
+    expected: Option<&'a Value>,
+    actual: Option<&'a Value>,
+}
+
+pub fn is_same_type<'a>(base: &'a Value, target: &'a Value, keyToValue: &mut Vec<String>) -> Option<Diff<'a>> {
     if let Some(base_object) = base.as_object() {
         if let Some(target_object) = target.as_object() {
+
             for key in base_object.keys() {
                 if !target_object.contains_key(key) {
-                    return false
+                    return Some(Diff { keyToValue: keyToValue.to_vec(), expected: Some(&base_object[key]), actual: None })
                 }
-                if !is_same_type(&base_object[key], &target_object[key]) {
-                    return false
+
+                keyToValue.push(key.to_string());
+                let result = is_same_type(&base_object[key], &target_object[key], keyToValue);
+                if result.is_some() {
+                    return result
                 }
+                keyToValue.pop();
             }
 
             for key in target_object.keys() {
                 if !base_object.contains_key(key) {
-                    return false
+                    return Some(Diff { keyToValue: keyToValue.to_vec(), expected: None, actual: Some(&target_object[key]) })
                 }
             }
-            return true
-        } else {
-            return false
+            return None
         }
     }
 
     if base.is_boolean() && target.is_boolean() || base.is_number() && target.is_number() || base.is_null() && target.is_null() || base.is_string() && target.is_string() {
-        return true;
+        return None
     }
 
-    false
+    Some(Diff { keyToValue: keyToValue.to_vec(), expected: Some(base), actual: Some(target) })
 }
 
 #[cfg(test)]
 mod tests {
     use serde_json::{Map, Value};
-    use crate::is_same_type::is_same_type;
+    use crate::is_same_type::{is_same_type, Diff};
 
     fn value_string () -> Value {
         "lorem".to_string().into()
@@ -58,42 +68,47 @@ mod tests {
     }
 
     #[test]
-    fn true_if_same_primitive() {
-        assert!(is_same_type(&value_string(), &"ipsum".into()));
-        assert!(is_same_type(&value_number(), &3.into()));
-        assert!(is_same_type(&value_boolean(), &true.into()));
-        assert!(is_same_type(&value_null(), &().into()));
+    fn none_if_same_primitive() {
+        let mut key = vec!["key".to_string(), "to".to_string()];
+        assert_eq!(is_same_type(&value_string(), &"ipsum".into(), &mut key), None);
+        assert_eq!(is_same_type(&value_number(), &3.into(), &mut key), None);
+        assert_eq!(is_same_type(&value_boolean(), &true.into(), &mut key), None);
+        assert_eq!(is_same_type(&value_null(), &().into(), &mut key), None);
     }
 
     #[test]
-    fn false_if_different_primitive() {
-        assert!(!is_same_type(&value_string(), &3.into()));
-        assert!(!is_same_type(&value_string(), &true.into()));
-        assert!(!is_same_type(&value_string(), &().into()));
+    fn diff_if_different_primitive() {
+        let mut key = vec!["key".to_string(), "to".to_string()];
+        assert_eq!(is_same_type(&value_string(), &3.into(), &mut key), Some(Diff{ keyToValue: vec!["key".to_string(), "to".to_string()], expected: Some(&value_string()), actual: Some(&3.into()) }));
+        assert_eq!(is_same_type(&value_string(), &true.into(), &mut key), Some(Diff{ keyToValue: vec!["key".to_string(), "to".to_string()], expected: Some(&value_string()), actual: Some(&true.into()) }));
+        assert_eq!(is_same_type(&value_string(), &().into(), &mut key), Some(Diff{ keyToValue: vec!["key".to_string(), "to".to_string()], expected: Some(&value_string()), actual: Some(&().into()) }));
 
-        assert!(!is_same_type(&value_number(), &"ipsum".into()));
-        assert!(!is_same_type(&value_number(), &true.into()));
-        assert!(!is_same_type(&value_number(), &().into()));
+        assert_eq!(is_same_type(&value_number(), &"ipsum".into(), &mut key), Some(Diff{ keyToValue: vec!["key".to_string(), "to".to_string()], expected: Some(&value_number()), actual: Some(&"ipsum".into()) }));
+        assert_eq!(is_same_type(&value_number(), &true.into(), &mut key), Some(Diff{ keyToValue: vec!["key".to_string(), "to".to_string()], expected: Some(&value_number()), actual: Some(&true.into()) }));
+        assert_eq!(is_same_type(&value_number(), &().into(), &mut key), Some(Diff{ keyToValue: vec!["key".to_string(), "to".to_string()], expected: Some(&value_number()), actual: Some(&().into()) }));
 
-        assert!(!is_same_type(&value_boolean(), &"ipsum".into()));
-        assert!(!is_same_type(&value_boolean(), &3.into()));
-        assert!(!is_same_type(&value_boolean(), &().into()));
+        assert_eq!(is_same_type(&value_boolean(), &"ipsum".into(), &mut key), Some(Diff{ keyToValue: vec!["key".to_string(), "to".to_string()], expected: Some(&value_boolean()), actual: Some(&"ipsum".into()) }));
+        assert_eq!(is_same_type(&value_boolean(), &3.into(), &mut key), Some(Diff{ keyToValue: vec!["key".to_string(), "to".to_string()], expected: Some(&value_boolean()), actual: Some(&3.into()) }));
+        assert_eq!(is_same_type(&value_boolean(), &().into(), &mut key), Some(Diff{ keyToValue: vec!["key".to_string(), "to".to_string()], expected: Some(&value_boolean()), actual: Some(&().into()) }));
 
-        assert!(!is_same_type(&value_null(), &"ipsum".into()));
-        assert!(!is_same_type(&value_null(), &3.into()));
-        assert!(!is_same_type(&value_null(), &true.into()));
+        assert_eq!(is_same_type(&value_null(), &"ipsum".into(), &mut key), Some(Diff{ keyToValue: vec!["key".to_string(), "to".to_string()], expected: Some(&value_null()), actual: Some(&"ipsum".into()) }));
+        assert_eq!(is_same_type(&value_null(), &3.into(), &mut key), Some(Diff{ keyToValue: vec!["key".to_string(), "to".to_string()], expected: Some(&value_null()), actual: Some(&3.into()) }));
+        assert_eq!(is_same_type(&value_null(), &true.into(), &mut key), Some(Diff{ keyToValue: vec!["key".to_string(), "to".to_string()], expected: Some(&value_null()), actual: Some(&true.into()) }));
     }
 
     #[test]
-    fn false_if_compare_primitive_with_object() {
-        for v in vec![value_string(), value_number(), value_boolean(), value_null()] {
-            assert!(!is_same_type(&v, &value_object()));
-            assert!(!is_same_type(&value_object(), &v));
+    fn none_if_compare_primitive_with_object() {
+        let mut key: Vec<String> = vec!["key".to_string(), "to".to_string()];
+        for value in vec![value_string(), value_number(), value_boolean(), value_null()] {
+            assert_eq!(is_same_type(&value, &value_object(), &mut key), Some(Diff{ keyToValue: vec!["key".to_string(), "to".to_string()], expected: Some(&value), actual: Some(&value_object()) }));
+            assert_eq!(is_same_type(&value_object(), &value, &mut key), Some(Diff{ keyToValue: vec!["key".to_string(), "to".to_string()], expected: Some(&value_object()), actual: Some(&value) }));
         }
     }
 
     #[test]
-    fn true_if_same_object() {
+    fn diff_if_same_object() {
+        let mut key: Vec<String> = vec!["key".to_string(), "to".to_string()];
+
         // m1 = { "lorem": "ipsum" }
         // m2 = { "lorem": "apple" }
         let mut m1 = Map::new();
@@ -103,7 +118,7 @@ mod tests {
         m2.insert("lorem".to_string(), "apple".into());
         let value_map2: Value = m2.into();
 
-        assert!(is_same_type(&value_map1, &value_map2));
+        assert_eq!(is_same_type(&value_map1, &value_map2, &mut key), None);
 
 
         // m3 = { "name": "Alice", "age": "10", "favorite": { "food": "apple", "number": 7 }, "occupation": null }
@@ -128,11 +143,12 @@ mod tests {
         m4.insert("occupation".to_string(), ().into());
         let value_map4: Value = m4.into();
 
-        assert!(is_same_type(&value_map3, &value_map4));
+        assert_eq!(is_same_type(&value_map3, &value_map4, &mut key), None);
     }
 
     #[test]
-    fn false_if_different_object() {
+    fn diff_if_different_object() {
+        let mut key: Vec<String> = vec!["key".to_string(), "to".to_string()];
         // m1 = { "lorem": "ipsum" }
         // m1 = { "foo": "bar" }
         let mut m1 = Map::new();
@@ -142,7 +158,10 @@ mod tests {
         m2.insert("foo".to_string(), "bar".into());
         let value_map2: Value = m2.into();
 
-        assert!(!is_same_type(&value_map1, &value_map2));
+        assert_eq!(
+            is_same_type(&value_map1, &value_map2, &mut key),
+            Some(Diff { keyToValue: vec!["key".to_string(), "to".to_string()], expected: Some(&"ipsum".into()), actual: None })
+        );
 
 
         // m3 = { "name": "Alice", "age": "10", "favorite": { "food": "apple" }, "occupation": null }
@@ -166,6 +185,9 @@ mod tests {
         m4.insert("occupation".to_string(), ().into());
         let value_map4: Value = m4.into();
 
-        assert!(!is_same_type(&value_map3, &value_map4));
+        assert_eq!(
+            is_same_type(&value_map3, &value_map4, &mut key),
+            Some(Diff { keyToValue: vec!["key".to_string(), "to".to_string(), "favorite".to_string()], expected: None, actual: Some(&100.into()) })
+        );
     }
 }
