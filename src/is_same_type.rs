@@ -12,11 +12,12 @@ pub fn is_same_type<'a>(base: &'a Value, target: &'a Value, key_to_value: &mut V
         if let Some(target_object) = target.as_object() {
 
             for key in base_object.keys() {
+                key_to_value.push(key.to_string());
+
                 if !target_object.contains_key(key) {
                     return Some(Diff { key_to_value: key_to_value.to_vec(), expected: Some(&base_object[key]), actual: None })
                 }
 
-                key_to_value.push(key.to_string());
                 let result = is_same_type(&base_object[key], &target_object[key], key_to_value);
                 if result.is_some() {
                     return result
@@ -26,6 +27,7 @@ pub fn is_same_type<'a>(base: &'a Value, target: &'a Value, key_to_value: &mut V
 
             for key in target_object.keys() {
                 if !base_object.contains_key(key) {
+                    key_to_value.push(key.to_string());
                     return Some(Diff { key_to_value: key_to_value.to_vec(), expected: None, actual: Some(&target_object[key]) })
                 }
             }
@@ -148,7 +150,7 @@ mod tests {
 
     #[test]
     fn diff_if_different_object() {
-        let mut key: Vec<String> = vec!["key".to_string(), "to".to_string()];
+        let key: Vec<String> = vec!["key".to_string(), "to".to_string()];
         // m1 = { "lorem": "ipsum" }
         // m1 = { "foo": "bar" }
         let mut m1 = Map::new();
@@ -159,8 +161,8 @@ mod tests {
         let value_map2: Value = m2.into();
 
         assert_eq!(
-            is_same_type(&value_map1, &value_map2, &mut key),
-            Some(Diff { key_to_value: vec!["key".to_string(), "to".to_string()], expected: Some(&"ipsum".into()), actual: None })
+            is_same_type(&value_map1, &value_map2, &mut key.clone()),
+            Some(Diff { key_to_value: vec!["key".to_string(), "to".to_string(), "lorem".to_string()], expected: Some(&"ipsum".into()), actual: None })
         );
 
 
@@ -186,8 +188,8 @@ mod tests {
         let value_map4: Value = m4.into();
 
         assert_eq!(
-            is_same_type(&value_map3, &value_map4, &mut key),
-            Some(Diff { key_to_value: vec!["key".to_string(), "to".to_string(), "favorite".to_string()], expected: None, actual: Some(&100.into()) })
+            is_same_type(&value_map3, &value_map4, &mut key.clone()),
+            Some(Diff { key_to_value: vec!["key".to_string(), "to".to_string(), "favorite".to_string(), "number".to_string()], expected: None, actual: Some(&100.into()) })
         );
     }
 }
