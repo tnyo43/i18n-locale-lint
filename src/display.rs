@@ -36,7 +36,7 @@ fn display_some_value(value: Option<&Value>) {
         display_value(v, "");
         println!("{}", color::Fg(color::Reset));
     } else {
-        println!("{}nothing{}", color::Fg(color::LightBlack), color::Fg(color::Reset));
+        println!("{}not set{}", color::Fg(color::LightBlack), color::Fg(color::Reset));
     }
 }
 
