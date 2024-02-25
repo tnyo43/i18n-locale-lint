@@ -1,4 +1,5 @@
-pub mod is_same_type;
+mod is_same_type;
+mod display;
 
 use std::env;
 use std::fmt::Display;
@@ -38,6 +39,6 @@ fn main() {
 
     let result = is_same_type::is_same_type(&data1, &data2, &mut vec![]);
     if let Some(diff) = result {
-        println!("{}", diff);
+        display::display_diff(&diff, file1, file2);
     }
 }
