@@ -7,7 +7,7 @@ pub fn get_files() -> Result<Vec<String>, Box<dyn Error>> {
     match glob(pattern) {
         Ok(paths) => {
             for path in paths {
-                files.push(path.unwrap().file_name().unwrap().to_str().unwrap().to_string());
+                files.push(path.unwrap().to_str().unwrap().to_string());
             }
         }
         Err(e) => {
