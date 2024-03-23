@@ -1,11 +1,13 @@
 mod is_same_type;
 mod display;
+mod files;
 
 use std::env;
 use std::fmt::Display;
 use std::fs;
 use is_same_type::Diff;
 use serde_json::Value;
+
 
 fn read_json_file(path: &str) -> Value {
     let data = fs::read_to_string(path);
@@ -30,6 +32,8 @@ fn main() {
         println!("Usage: my_cli_tool <arg1> <arg2>");
         return;
     }
+
+    files::get_files();
 
     let file1 = &args[1];
     let file2 = &args[2];
