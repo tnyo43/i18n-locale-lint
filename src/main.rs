@@ -2,7 +2,6 @@ mod check;
 mod diff;
 mod display;
 mod files;
-mod is_same_type;
 mod option;
 
 use std::env;
