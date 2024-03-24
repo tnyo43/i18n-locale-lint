@@ -1,6 +1,7 @@
 mod display;
 mod files;
 mod is_same_type;
+mod option;
 
 use std::env;
 use std::fs;
@@ -25,11 +26,13 @@ fn check(file_paths: &Vec<&str>) -> bool {
         return true;
     }
 
-    println!("comparing:");
-    for path in file_paths {
-        println!("- {}", path);
+    if !option::INSTANCE.get().unwrap().silent {
+        println!("comparing:");
+        for path in file_paths {
+            println!("- {}", path);
+        }
+        println!();
     }
-    println!();
 
     let mut success = true;
     let base_file_path = &file_paths[0];
@@ -43,17 +46,22 @@ fn check(file_paths: &Vec<&str>) -> bool {
         }
     }
 
-    if success {
-        println!("Ok!");
+    if !option::INSTANCE.get().unwrap().silent {
+        if success {
+            println!("Ok!");
+        }
+        println!();
     }
 
-    println!();
     success
 }
 
 fn main() {
     let args: Vec<String> = env::args().collect();
     let pattern = args[1].as_str();
+
+    let option = option::Option::from_cli(&args);
+    let _ = option::INSTANCE.set(option);
 
     let mut ok = true;
     match files::get_file_groups(pattern) {
