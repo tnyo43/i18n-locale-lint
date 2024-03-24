@@ -48,5 +48,5 @@ pub fn display_diff(diff: &Diff, file1: &str, file2: &str) {
     display_some_value(diff.expected);
     println!("\nin {}", file2);
     display_some_value(diff.actual);
-    println!("\n");
+    println!("");
 }

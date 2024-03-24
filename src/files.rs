@@ -3,8 +3,7 @@ use glob::glob;
 use regex::Regex;
 
 
-pub fn get_files() -> Result<Vec<String>, Box<dyn Error>> {
-    let pattern = "./example/**/*.json";
+pub fn get_files(pattern: &str) -> Result<Vec<String>, Box<dyn Error>> {
     let mut files = Vec::new();
     match glob(pattern) {
         Ok(paths) => {
@@ -17,8 +16,6 @@ pub fn get_files() -> Result<Vec<String>, Box<dyn Error>> {
         }
     }
 
-    println!("{:?}", files);
-    group(&files);
     Ok(files)
 }
 
@@ -36,6 +33,13 @@ fn group(file_paths: &Vec<String>) -> HashMap<String, Vec<String>> {
     }
 
     grouped_paths
+}
+
+pub fn get_file_groups(pattern: &str) -> Result<HashMap<String, Vec<String>>, Box<dyn Error>> {
+    match get_files(pattern) {
+        Ok(file_paths) => Ok(group(&file_paths)),
+        Err(e) => Err(e)
+    }
 }
 
 
