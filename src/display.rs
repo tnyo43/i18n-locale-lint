@@ -1,6 +1,7 @@
 use serde_json::Value;
 use termion::color;
-use crate::is_same_type::Diff;
+
+use crate::diff::Diff;
 
 fn display_value(value: &Value, indent: &str) {
     match value {

@@ -1,3 +1,4 @@
+mod diff;
 mod display;
 mod files;
 mod is_same_type;
