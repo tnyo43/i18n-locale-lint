@@ -1,11 +1,12 @@
 mod is_same_type;
 mod display;
+mod files;
 
 use std::env;
-use std::fmt::Display;
 use std::fs;
-use is_same_type::Diff;
+use std::process::exit;
 use serde_json::Value;
+
 
 fn read_json_file(path: &str) -> Value {
     let data = fs::read_to_string(path);
@@ -16,29 +17,55 @@ fn read_json_file(path: &str) -> Value {
     parsed_data
 }
 
-
-impl Display for Diff<'_> {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "Diff: key_to_value={:?}, expected={:?}, actual={:?}", self.key_to_value, self.expected, self.actual)
+fn check(file_paths: &Vec<&str>) -> bool {
+    if file_paths.len() <= 1 {
+        return true;
     }
+
+    println!("comparing:");
+    for path in file_paths {
+        println!("- {}", path);
+    }
+    println!("");
+
+    let mut success = true;
+    let base_file_path = &file_paths[0];
+    let base_data = read_json_file(&base_file_path);
+    for &target_file_path in file_paths.iter().skip(1) {
+        let target_data = read_json_file(target_file_path);
+        let result = is_same_type::is_same_type(&base_data, &target_data, &mut vec![]);
+        if let Some(diff) = result {
+            display::display_diff(&diff, &base_file_path, &target_file_path);
+            success = false;
+        }
+    }
+
+    if success {
+        println!("Ok!");
+    }
+    
+    println!("");
+    success
 }
 
 fn main() {
     let args: Vec<String> = env::args().collect();
+    let pattern = args[1].as_str();
 
-    if args.len() < 2 {
-        println!("Usage: my_cli_tool <arg1> <arg2>");
-        return;
+    let mut ok = true;
+    match files::get_file_groups(pattern) {
+        Ok(file_groups) => {
+            for group in file_groups {
+                ok &= check(&group.1.iter().map(|p| p.as_str()).collect());
+            }
+        },
+        Err(e) => {
+            println!("{:?}", e);
+            ok = false;
+        }
     }
 
-    let file1 = &args[1];
-    let file2 = &args[2];
-
-    let data1 = read_json_file(file1);
-    let data2 = read_json_file(file2);
-
-    let result = is_same_type::is_same_type(&data1, &data2, &mut vec![]);
-    if let Some(diff) = result {
-        display::display_diff(&diff, file1, file2);
+    if !ok {
+        exit(1);
     }
 }
