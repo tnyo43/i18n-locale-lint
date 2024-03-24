@@ -26,7 +26,7 @@ fn check(file_paths: &Vec<&str>) -> bool {
         return true;
     }
 
-    if option::INSTANCE.get().unwrap().silent {
+    if !option::INSTANCE.get().unwrap().silent {
         println!("comparing:");
         for path in file_paths {
             println!("- {}", path);
@@ -46,7 +46,7 @@ fn check(file_paths: &Vec<&str>) -> bool {
         }
     }
 
-    if option::INSTANCE.get().unwrap().silent {
+    if !option::INSTANCE.get().unwrap().silent {
         if success {
             println!("Ok!");
         }
@@ -60,7 +60,7 @@ fn main() {
     let args: Vec<String> = env::args().collect();
     let pattern = args[1].as_str();
 
-    let option = option::Option::new();
+    let option = option::Option::from_cli(&args);
     let _ = option::INSTANCE.set(option);
 
     let mut ok = true;
