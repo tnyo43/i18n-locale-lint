@@ -24,7 +24,7 @@ fn group(file_paths: &Vec<String>) -> HashMap<String, Vec<String>> {
     let mut grouped_paths = HashMap::new();
 
     for paths in file_paths {
-        if let Some(capture) = re.captures(&paths) {
+        if let Some(capture) = re.captures(paths) {
             let key = capture.get(1).unwrap().as_str().to_string();
             grouped_paths
                 .entry(key)

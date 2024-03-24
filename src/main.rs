@@ -29,16 +29,16 @@ fn check(file_paths: &Vec<&str>) -> bool {
     for path in file_paths {
         println!("- {}", path);
     }
-    println!("");
+    println!();
 
     let mut success = true;
     let base_file_path = &file_paths[0];
-    let base_data = read_json_file(&base_file_path);
+    let base_data = read_json_file(base_file_path);
     for &target_file_path in file_paths.iter().skip(1) {
         let target_data = read_json_file(target_file_path);
         let result = is_same_type::is_same_type(&base_data, &target_data, &mut vec![]);
         if let Some(diff) = result {
-            display::display_diff(&diff, &base_file_path, &target_file_path);
+            display::display_diff(&diff, base_file_path, target_file_path);
             success = false;
         }
     }
@@ -47,7 +47,7 @@ fn check(file_paths: &Vec<&str>) -> bool {
         println!("Ok!");
     }
 
-    println!("");
+    println!();
     success
 }
 

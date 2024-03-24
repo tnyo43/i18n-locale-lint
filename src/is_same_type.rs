@@ -207,7 +207,7 @@ mod tests {
     #[test]
     fn none_if_compare_primitive_with_object() {
         let mut key: Vec<String> = vec!["key".to_string(), "to".to_string()];
-        for value in vec![
+        for value in [
             value_string(),
             value_number(),
             value_boolean(),
