@@ -1,16 +1,19 @@
-mod is_same_type;
 mod display;
 mod files;
+mod is_same_type;
 
 use std::env;
 use std::fs;
 use std::process::exit;
 use serde_json::Value;
 
-
 fn read_json_file(path: &str) -> Value {
     let data = fs::read_to_string(path);
-    let content = if let Ok(content) = data { content } else { "failed to parse".to_string() };
+    let content = if let Ok(content) = data {
+        content
+    } else {
+        "failed to parse".to_string()
+    };
 
     let parsed_data: Value = serde_json::from_str(&content).unwrap();
 
@@ -43,7 +46,7 @@ fn check(file_paths: &Vec<&str>) -> bool {
     if success {
         println!("Ok!");
     }
-    
+
     println!("");
     success
 }
@@ -58,7 +61,7 @@ fn main() {
             for group in file_groups {
                 ok &= check(&group.1.iter().map(|p| p.as_str()).collect());
             }
-        },
+        }
         Err(e) => {
             println!("{:?}", e);
             ok = false;
