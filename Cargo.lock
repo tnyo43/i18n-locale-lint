@@ -65,6 +65,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "json-inspector-json"
+version = "0.0.1"
+dependencies = [
+ "json-inspector-ast",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "libc"
 version = "0.2.153"
 source = "registry+https://github.com/rust-lang/crates.io-index"
