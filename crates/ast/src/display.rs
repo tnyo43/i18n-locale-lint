@@ -1,5 +1,3 @@
-use termion::color;
-
 use crate::value::{Diff, Literal, Value};
 
 impl Literal {
@@ -51,37 +49,20 @@ impl Value {
 
 fn display_some_value(value: &Option<Value>) {
     if let Some(v) = value {
-        print!("{}", color::Fg(color::Green));
         v.display("");
-        println!("{}", color::Fg(color::Reset));
+        println!();
     } else {
-        println!(
-            "{}not set{}",
-            color::Fg(color::LightBlack),
-            color::Fg(color::Reset)
-        );
+        println!("not set");
     }
 }
 
 impl Diff {
     pub fn display(&self, file1: &str, file2: &str) {
+        println!("compare {}", file1,);
+        println!("   with {}", file2,);
         println!(
-            "compare {}{}{}",
-            color::Fg(color::Yellow),
-            file1,
-            color::Fg(color::Reset)
-        );
-        println!(
-            "   with {}{}{}",
-            color::Fg(color::Yellow),
-            file2,
-            color::Fg(color::Reset)
-        );
-        println!(
-            "detect a type difference with this key: {}{}{}",
-            color::Fg(color::Yellow),
+            "detect a type difference with this key: {}",
             self.key_to_value.join("."),
-            color::Fg(color::Reset)
         );
         println!("\nin {}", file1);
         display_some_value(&self.expected);
