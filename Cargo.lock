@@ -48,12 +48,7 @@ checksum = "b1a46d1a171d865aa5f83f92695765caa047a9b4cbae2cbf37dbd613a793fd4c"
 name = "json-inspector"
 version = "0.1.0"
 dependencies = [
- "getopts",
- "glob",
- "json-inspector-ast",
- "json-inspector-json",
- "once_cell",
- "regex",
+ "json-inspector-cli",
 ]
 
 [[package]]
@@ -61,6 +56,18 @@ name = "json-inspector-ast"
 version = "0.0.1"
 dependencies = [
  "termion",
+]
+
+[[package]]
+name = "json-inspector-cli"
+version = "0.0.1"
+dependencies = [
+ "getopts",
+ "glob",
+ "json-inspector-ast",
+ "json-inspector-json",
+ "once_cell",
+ "regex",
 ]
 
 [[package]]
