@@ -58,6 +58,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "json-inspector-ast"
+version = "0.0.1"
+dependencies = [
+ "termion",
+]
+
+[[package]]
 name = "libc"
 version = "0.2.153"
 source = "registry+https://github.com/rust-lang/crates.io-index"
