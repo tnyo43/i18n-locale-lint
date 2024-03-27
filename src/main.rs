@@ -1,6 +1,4 @@
 mod check;
-mod diff;
-mod display;
 mod files;
 mod option;
 

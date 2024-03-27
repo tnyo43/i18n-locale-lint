@@ -50,11 +50,10 @@ version = "0.1.0"
 dependencies = [
  "getopts",
  "glob",
+ "json-inspector-ast",
+ "json-inspector-json",
  "once_cell",
  "regex",
- "serde",
- "serde_json",
- "termion",
 ]
 
 [[package]]
