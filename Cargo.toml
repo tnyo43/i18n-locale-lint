@@ -5,9 +5,6 @@ edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
-[dependencies]
-json-inspector-cli = { path = "./crates/cli" }
-
 [workspace]
 resolver = "2"
 members = [
@@ -15,3 +12,7 @@ members = [
     "crates/cli",
     "crates/json"
 ]
+
+[lib]
+path = "./crates/cli"
+crate-type = ["cdylib", "rlib"]
