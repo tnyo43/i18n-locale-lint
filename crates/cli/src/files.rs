@@ -1,21 +1,29 @@
-use std::{collections::HashMap, error::Error};
+use std::{collections::HashMap, error::Error, env};
 use glob::glob;
 use regex::Regex;
 
-pub fn get_files(pattern: &str) -> Result<Vec<String>, Box<dyn Error>> {
+#[cfg(not(target_os = "wasi"))]
+fn get_files() -> Result<Vec<String>, Box<dyn Error>> {
+    let args: Vec<String> = env::args().collect();
+    let pattern = args[1].as_str();
+
     let mut files = Vec::new();
-    match glob(pattern) {
-        Ok(paths) => {
-            for path in paths {
-                files.push(path.unwrap().to_str().unwrap().to_string());
-            }
-        }
-        Err(e) => {
-            return Err(Box::new(e));
-        }
+    let paths = glob(pattern).expect("Failed to read glob pattern");
+
+    let x: Vec<Result<std::path::PathBuf, glob::GlobError>> = paths.collect();
+    for path in x {
+        files.push(path.unwrap().to_str().unwrap().to_string());
     }
 
     Ok(files)
+}
+
+#[cfg(target_os = "wasi")]
+fn get_files() -> Result<Vec<String>, Box<dyn Error>> {
+    let args: Vec<String> = env::args().collect();
+    let paths = args[0].split(",").map(|x| x.to_string()).collect();
+    println!("{:?}", paths);
+    Ok(paths)
 }
 
 fn group(file_paths: &Vec<String>) -> HashMap<String, Vec<String>> {
@@ -36,8 +44,8 @@ fn group(file_paths: &Vec<String>) -> HashMap<String, Vec<String>> {
     grouped_paths
 }
 
-pub fn get_file_groups(pattern: &str) -> Result<HashMap<String, Vec<String>>, Box<dyn Error>> {
-    match get_files(pattern) {
+pub fn get_file_groups() -> Result<HashMap<String, Vec<String>>, Box<dyn Error>> {
+    match get_files() {
         Ok(file_paths) => Ok(group(&file_paths)),
         Err(e) => Err(e),
     }
