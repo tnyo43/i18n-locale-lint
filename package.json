@@ -1,0 +1,14 @@
+{
+  "name": "json-inspector",
+  "version": "0.0.0",
+  "description": "",
+  "main": "./bin/main.mjs",
+  "bin": {
+    "json-inspector": "./bin/main.mjs"
+  },
+  "dependencies": {
+    "glob": "10.3.12"
+  },
+  "author": "Tomoya Kashifuku<tnyo43@gmail.com>",
+  "license": "MIT"
+}
