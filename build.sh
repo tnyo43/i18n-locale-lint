@@ -14,4 +14,4 @@ echo $TARGET_DIR build
     cargo wasi build $TAG
 )
 mkdir -p wasm
-mv ./target/wasm32-wasi/$TARGET_DIR/json-inspector-cli.wasm wasm/json-inspector-cli.wasm
+mv ./target/wasm32-wasi/$TARGET_DIR/i18n-locale-lint-cli.wasm wasm/i18n-locale-lint-cli.wasm

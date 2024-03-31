@@ -27,39 +27,39 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d2fabcfbdc87f4758337ca535fb41a6d701b65693ce38287d856d1674551ec9b"
 
 [[package]]
-name = "itoa"
-version = "1.0.10"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b1a46d1a171d865aa5f83f92695765caa047a9b4cbae2cbf37dbd613a793fd4c"
-
-[[package]]
-name = "json-inspector"
+name = "i18n-locale-lint"
 version = "0.1.0"
 
 [[package]]
-name = "json-inspector-ast"
+name = "i18n-locale-lint-ast"
 version = "0.0.1"
 
 [[package]]
-name = "json-inspector-cli"
+name = "i18n-locale-lint-cli"
 version = "0.0.1"
 dependencies = [
  "getopts",
  "glob",
- "json-inspector-ast",
- "json-inspector-json",
+ "i18n-locale-lint-ast",
+ "i18n-locale-lint-json",
  "once_cell",
  "regex",
 ]
 
 [[package]]
-name = "json-inspector-json"
+name = "i18n-locale-lint-json"
 version = "0.0.1"
 dependencies = [
- "json-inspector-ast",
+ "i18n-locale-lint-ast",
  "serde",
  "serde_json",
 ]
+
+[[package]]
+name = "itoa"
+version = "1.0.10"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b1a46d1a171d865aa5f83f92695765caa047a9b4cbae2cbf37dbd613a793fd4c"
 
 [[package]]
 name = "memchr"
