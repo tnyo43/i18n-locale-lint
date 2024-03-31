@@ -1,4 +1,4 @@
 [package]
-name = "json-inspector-ast"
+name = "i18n-locale-lint-ast"
 version = "0.0.1"
 edition = "2021"

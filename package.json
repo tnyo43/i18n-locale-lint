@@ -1,10 +1,10 @@
 {
-  "name": "json-inspector",
+  "name": "i18n-locale-lint",
   "version": "0.0.0",
   "description": "",
   "main": "./bin/main.mjs",
   "bin": {
-    "json-inspector": "./bin/main.mjs"
+    "i18n-locale-lint": "./bin/main.mjs"
   },
   "dependencies": {
     "glob": "10.3.12"
