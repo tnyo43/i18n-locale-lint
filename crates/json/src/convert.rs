@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use json_inspector_ast::value::{Value, Literal};
+use i18n_locale_lint_ast::value::{Value, Literal};
 
 pub fn convert(value: &serde_json::Value) -> Value {
     match value {

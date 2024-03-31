@@ -15,6 +15,6 @@ fn read_json_file(path: &str) -> serde_json::Value {
     serde_json::from_str(&content).unwrap()
 }
 
-pub fn get_json_data(path: &str) -> json_inspector_ast::value::Value {
+pub fn get_json_data(path: &str) -> i18n_locale_lint_ast::value::Value {
     convert::convert(&read_json_file(path))
 }
