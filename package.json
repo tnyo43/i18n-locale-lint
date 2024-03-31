@@ -9,6 +9,9 @@
   "dependencies": {
     "glob": "10.3.12"
   },
+  "files": [
+    "wasm"
+  ],
   "author": "Tomoya Kashifuku<tnyo43@gmail.com>",
   "license": "MIT"
 }
