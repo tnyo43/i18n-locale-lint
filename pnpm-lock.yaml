@@ -12,6 +12,12 @@ importers:
         specifier: 10.3.12
         version: 10.3.12
 
+  examples/failure:
+    devDependencies:
+      i18n-locale-lint:
+        specifier: '*'
+        version: link:../..
+
   examples/success:
     devDependencies:
       i18n-locale-lint:
