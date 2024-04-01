@@ -1,0 +1,15 @@
+{
+  "title": "タイトル",
+  "content": "内容",
+  "images": "画像",
+  "createdAt": "作成日時",
+  "author": "著者",
+  "category": {
+    "title": "カテゴリ",
+    "business": "ビジネス",
+    "travel": "旅行",
+    "music": "音楽",
+    "sports": "スポーツ",
+    "food": "食べ物"
+  }
+}

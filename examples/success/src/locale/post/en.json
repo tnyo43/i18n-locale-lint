@@ -1,0 +1,15 @@
+{
+  "title": "Title",
+  "content": "Content",
+  "images": "Images",
+  "createdAt": "Created At",
+  "author": "Author",
+  "category": {
+    "title": "Category",
+    "business": "Business",
+    "travel": "Travel",
+    "music": "Music",
+    "sports": "Sports",
+    "food": "Food"
+  }
+}

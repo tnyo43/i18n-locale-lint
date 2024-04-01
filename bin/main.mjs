@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env node --experimental-wasi-unstable-preview1
 
 import fs from "node:fs";
 import { exit } from "node:process";
