@@ -2,15 +2,11 @@
 
 import fs from "node:fs";
 import { exit } from "node:process";
-import { glob } from "glob";
 import { WASI } from "wasi";
-
-const pattern = process.argv[2];
-const files = await glob(pattern);
 
 const wasi = new WASI({
   version: "preview1",
-  args: [files],
+  args: process.argv.slice(2),
   preopens: {
     ".": ".",
   },
