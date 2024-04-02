@@ -1,20 +1,24 @@
-use core::panic;
-use std::fs;
 use serde_json::{self};
+use std::collections::HashMap;
 
-use crate::convert;
+use i18n_locale_lint_ast::value::{Value, Literal};
 
-fn read_json_file(path: &str) -> serde_json::Value {
-    let data = fs::read_to_string(path);
-    let content = if let Ok(content) = data {
-        content
-    } else {
-        panic!("failed to parse");
-    };
+pub fn parse(content: String) -> i18n_locale_lint_ast::value::Value {
+    let serde_value = serde_json::from_str(&content).unwrap();
 
-    serde_json::from_str(&content).unwrap()
+    convert(&serde_value)
 }
 
-pub fn get_json_data(path: &str) -> i18n_locale_lint_ast::value::Value {
-    convert::convert(&read_json_file(path))
+pub fn convert(value: &serde_json::Value) -> Value {
+    match value {
+        serde_json::Value::String(s) => Value::Literal(Literal::String(s.clone())),
+        serde_json::Value::Bool(b) => Value::Literal(Literal::Bool(*b)),
+        serde_json::Value::Number(n) => Value::Literal(Literal::Number(n.as_f64().unwrap())),
+        serde_json::Value::Null => Value::Literal(Literal::Null),
+        serde_json::Value::Array(arr) => Value::Array(arr.iter().map(convert).collect()),
+        serde_json::Value::Object(obj) => Value::Map(HashMap::from_iter(
+            obj.iter()
+                .map(|(key, value)| (key.clone(), Box::new(convert(value)))),
+        )),
+    }
 }
