@@ -16,3 +16,9 @@ members = [
 [lib]
 path = "./crates/cli"
 crate-type = ["cdylib", "rlib"]
+
+[profile.release]
+strip = true
+opt-level = "s"
+lto = true
+codegen-unit = 1
