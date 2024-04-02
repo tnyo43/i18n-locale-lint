@@ -1,7 +1,7 @@
 {
   "name": "i18n-locale-lint-example-failure",
   "scripts": {
-    "i18n-lint": "i18n-locale-lint \"src/locale/**/*.json\""
+    "i18n-lint": "i18n-locale-lint src/locale/**/*.json"
   },
   "devDependencies": {
     "i18n-locale-lint": "*"
