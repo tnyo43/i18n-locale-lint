@@ -9,6 +9,7 @@ fi
 
 echo $TARGET_DIR build
 
+rm -rf wasm
 (
     cd crates/cli
     cargo wasi build $TAG
