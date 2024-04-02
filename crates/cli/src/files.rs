@@ -1,9 +1,9 @@
 use std::{collections::HashMap, error::Error, env};
-use glob::glob;
 use regex::Regex;
 
 #[cfg(not(target_os = "wasi"))]
 fn get_files() -> Result<Vec<String>, Box<dyn Error>> {
+    use glob::glob;
     let args: Vec<String> = env::args().collect();
     let pattern = args[1].as_str();
 

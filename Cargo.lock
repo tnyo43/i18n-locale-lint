@@ -64,7 +64,6 @@ name = "i18n-locale-lint-json"
 version = "0.0.1"
 dependencies = [
  "i18n-locale-lint-ast",
- "serde",
  "serde_json",
 ]
 
