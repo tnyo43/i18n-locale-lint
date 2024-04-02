@@ -15,7 +15,7 @@ Add a script in your package.json.
 ```json
 {
   "script": {
-    "i18n-lint": "i18n-locale-lint \"./src/i18n/locales/**/*.json\""
+    "i18n-lint": "i18n-locale-lint ./src/i18n/locales/**/*.json"
   }
 }
 ```
