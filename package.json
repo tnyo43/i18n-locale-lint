@@ -1,6 +1,6 @@
 {
   "name": "i18n-locale-lint",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "./bin/main.mjs",
   "bin": {
