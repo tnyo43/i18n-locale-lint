@@ -1,68 +1,69 @@
-use crate::value::{Diff, Literal, Value};
-use colored::*;
+use std::fmt::Display;
 
-impl Literal {
-    fn display(&self) {
+use crate::value::{Diff, Literal, Value};
+
+impl Display for Literal {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            Literal::Number(n) => {
-                print!("{}", n.to_string().blue());
-            }
-            Literal::Null => {
-                print!("{}", "null".blue());
-            }
-            Literal::Bool(b) => {
-                print!("{}", b.to_string().blue());
-            }
-            Literal::String(s) => {
-                print!("{}{}{}", "\"".blue(), s.blue(), "\"".blue());
-            }
+            Literal::Number(n) => write!(f, "{}", n),
+            Literal::Null => write!(f, "null"),
+            Literal::Bool(b) => write!(f, "{}", b),
+            Literal::String(s) => write!(f, "\"{}\"", s),
         }
     }
 }
 
 impl Value {
-    fn display(&self, indent: &str) {
+    fn fmt_sub(&self, f: &mut std::fmt::Formatter<'_>, indent: &str) -> std::fmt::Result {
         match self {
-            Value::Literal(l) => l.display(),
+            Value::Literal(l) => l.fmt(f),
             Value::Array(arr) => {
                 let new_indent = indent.to_string() + "  ";
-                println!("{}", "[".blue());
+                let _ = writeln!(f, "[");
                 for v in arr {
-                    print!("{}", indent);
-                    v.display(&new_indent);
-                    println!("{}", ",".blue());
+                    let _ = write!(f, "{}", indent);
+                    let _ = v.fmt_sub(f, &new_indent);
+                    let _ = writeln!(f, ",");
                 }
-                println!("{}]", indent);
+                write!(f, "{}]", indent)
             }
             Value::Map(map) => {
                 let new_indent = indent.to_string() + "  ";
-                println!("{}", "{".blue());
+                let _ = writeln!(f, "{{");
                 for key in map.keys() {
-                    print!("{}{}{} ", new_indent.blue(), key.blue(), ":".blue());
-                    map[key].display(&new_indent);
-                    println!("{}", ",".blue());
+                    let _ = write!(f, "{}{}: ", new_indent, key);
+                    let _ = map[key].fmt_sub(f, &new_indent);
+                    let _ = writeln!(f, ",");
                 }
-                print!("{}{}", indent, "}".blue());
+                write!(f, "{}}}", indent,)
             }
         }
     }
 }
 
-fn display_some_value(value: &Option<Value>) {
-    if let Some(v) = value {
-        v.display("");
-        println!();
-    } else {
-        println!("{}", "not set".blue());
+impl Display for Value {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        self.fmt_sub(f, "")
     }
+}
+
+fn display_some_value(value: &Option<Value>) {
+    // print with blue text
+    print!("\x1b[34m");
+    if let Some(v) = value {
+        println!("{}", v);
+    } else {
+        println!("not set");
+    }
+    print!("\x1b[m");
 }
 
 impl Diff {
     pub fn display(&self, file1: &str, file2: &str) {
+        // print with red text
         println!(
-            "{} {}",
-            "detected a type difference with this key:".red(),
-            self.key_to_value.join(".").red(),
+            "\x1b[31mdetected a type difference with this key: {}\x1b[m",
+            self.key_to_value.join("."),
         );
         println!("\nin {}", file1);
         display_some_value(&self.expected);
