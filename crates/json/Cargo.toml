@@ -6,3 +6,6 @@ edition = "2021"
 [dependencies]
 i18n-locale-lint-ast = { path = "../ast" }
 serde_json = "1.0.113"
+
+[dev-dependencies]
+insta = "1.38.0"
