@@ -3,7 +3,7 @@ use i18n_locale_lint_ast::value::Value;
 use crate::option;
 
 fn read_json_file(path: &str) -> Value {
-    i18n_locale_lint_json::parse::get_json_data(path)
+    i18n_locale_lint_json::get_json_data(path)
 }
 
 pub fn check(file_paths: &Vec<&str>) -> i32 {
