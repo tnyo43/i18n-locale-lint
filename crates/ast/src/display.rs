@@ -1,6 +1,7 @@
 use std::fmt::Display;
 
 use crate::value::{Diff, Literal, Value};
+use itertools::Itertools;
 
 impl Display for Literal {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -21,7 +22,7 @@ impl Value {
                 let new_indent = indent.to_string() + "  ";
                 let _ = writeln!(f, "[");
                 for v in arr {
-                    let _ = write!(f, "{}", indent);
+                    let _ = write!(f, "{}", new_indent);
                     let _ = v.fmt_sub(f, &new_indent);
                     let _ = writeln!(f, ",");
                 }
@@ -30,8 +31,8 @@ impl Value {
             Value::Map(map) => {
                 let new_indent = indent.to_string() + "  ";
                 let _ = writeln!(f, "{{");
-                for key in map.keys() {
-                    let _ = write!(f, "{}{}: ", new_indent, key);
+                for key in map.keys().sorted() {
+                    let _ = write!(f, "{}\"{}\": ", new_indent, key);
                     let _ = map[key].fmt_sub(f, &new_indent);
                     let _ = writeln!(f, ",");
                 }
