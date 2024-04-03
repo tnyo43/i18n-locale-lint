@@ -1,7 +1,6 @@
 use std::fmt::Display;
 
 use crate::value::{Diff, Literal, Value};
-use colored::*;
 
 impl Display for Literal {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -49,20 +48,22 @@ impl Display for Value {
 }
 
 fn display_some_value(value: &Option<Value>) {
+    // print with blue text
+    print!("\x1b[34m");
     if let Some(v) = value {
         println!("{}", v);
-        println!();
     } else {
-        println!("{}", "not set".blue());
+        println!("not set");
     }
+    print!("\x1b[m");
 }
 
 impl Diff {
     pub fn display(&self, file1: &str, file2: &str) {
+        // print with red text
         println!(
-            "{} {}",
-            "detected a type difference with this key:".red(),
-            self.key_to_value.join(".").red(),
+            "\x1b[31mdetected a type difference with this key: {}\x1b[m",
+            self.key_to_value.join("."),
         );
         println!("\nin {}", file1);
         display_some_value(&self.expected);
