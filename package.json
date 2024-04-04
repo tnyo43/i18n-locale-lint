@@ -1,7 +1,14 @@
 {
   "name": "i18n-locale-lint",
   "version": "0.1.0",
-  "description": "",
+  "description": "checker for locale files",
+  "keywords": [
+    "lint",
+    "i18n"
+  ],
+  "repository": "github:tnyo43/i18n-locale-lint",
+  "homepage": "https://github.com/tnyo43/i18n-locale-lint#readme",
+  "bugs": "https://github.com/tnyo43/i18n-locale-lint/issues",
   "main": "./bin/main.mjs",
   "bin": {
     "i18n-locale-lint": "./bin/main.mjs"
