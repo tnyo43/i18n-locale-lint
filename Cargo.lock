@@ -74,6 +74,7 @@ dependencies = [
  "getopts",
  "i18n-locale-lint-ast",
  "i18n-locale-lint-json",
+ "i18n-locale-lint-yaml",
  "once_cell",
  "regex",
 ]
