@@ -1,0 +1,11 @@
+[package]
+name = "i18n-locale-lint-yaml"
+version = "0.0.1"
+edition = "2021"
+
+[dependencies]
+i18n-locale-lint-ast = { path = "../ast" }
+serde_yaml = "0.9.34"
+
+[dev-dependencies]
+insta = "1.38.0"

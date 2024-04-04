@@ -19,3 +19,9 @@ importers:
       i18n-locale-lint:
         specifier: '*'
         version: link:../..
+
+  examples/yaml:
+    devDependencies:
+      i18n-locale-lint:
+        specifier: '*'
+        version: link:../..

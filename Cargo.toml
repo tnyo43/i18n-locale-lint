@@ -10,7 +10,8 @@ resolver = "2"
 members = [
     "crates/ast",
     "crates/cli",
-    "crates/json"
+    "crates/json",
+    "crates/yaml",
 ]
 
 [lib]
