@@ -62,14 +62,14 @@ version = "0.1.0"
 
 [[package]]
 name = "i18n-locale-lint-ast"
-version = "0.0.1"
+version = "0.1.0"
 dependencies = [
  "itertools",
 ]
 
 [[package]]
 name = "i18n-locale-lint-cli"
-version = "0.0.1"
+version = "0.1.0"
 dependencies = [
  "getopts",
  "i18n-locale-lint-ast",
@@ -81,7 +81,7 @@ dependencies = [
 
 [[package]]
 name = "i18n-locale-lint-json"
-version = "0.0.1"
+version = "0.1.0"
 dependencies = [
  "i18n-locale-lint-ast",
  "insta",
@@ -90,7 +90,7 @@ dependencies = [
 
 [[package]]
 name = "i18n-locale-lint-yaml"
-version = "0.0.1"
+version = "0.1.0"
 dependencies = [
  "i18n-locale-lint-ast",
  "insta",
