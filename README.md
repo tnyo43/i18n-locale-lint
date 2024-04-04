@@ -1,6 +1,6 @@
 # i18n-locale-lint
 
-This is package to checks JSON locale files to ensure that all keys are present in each file. It's particularly useful in multilingual applications to guarantee that all languages have the same set of keys.
+This is a package to check JSON/YAML locale files to ensure that all keys are present in each file. It's particularly useful in multilingual applications to guarantee that all languages have the same set of keys.
 
 # Install
 
