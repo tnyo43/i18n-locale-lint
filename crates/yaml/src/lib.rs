@@ -1,4 +1,4 @@
 mod file;
 mod parse;
 
-pub use file::get_json_data;
+pub use file::get_yaml_data;
