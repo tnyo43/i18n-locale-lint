@@ -15,11 +15,11 @@ impl Option {
 
         let mut opts = Options::new();
 
-        opts.optflag("s", "silent", "no console output");
+        opts.optflag("s", "silent", "Don't display logs other than errors.");
         opts.optflag(
             "",
             "skip-top-level",
-            "assuming the top level is composed solely of a single key, and skipping it",
+            "Assuming the top level is composed solely of a single key, skip it.",
         );
 
         let matches = match opts.parse(args) {
