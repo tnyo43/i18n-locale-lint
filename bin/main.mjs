@@ -4,9 +4,11 @@ import fs from "node:fs";
 import { exit } from "node:process";
 import { WASI } from "wasi";
 
+const PROGRAM = "i18n-locale-lint";
+
 const wasi = new WASI({
   version: "preview1",
-  args: process.argv.slice(2),
+  args: [PROGRAM, ...process.argv.slice(2)],
   preopens: {
     ".": ".",
   },
