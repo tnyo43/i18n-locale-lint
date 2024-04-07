@@ -4,11 +4,17 @@ use std::{ffi::OsStr, path::Path};
 use crate::option;
 
 fn read_json_file(path: &str) -> Value {
-    match Path::new(path).extension().and_then(OsStr::to_str) {
+    let data = match Path::new(path).extension().and_then(OsStr::to_str) {
         Some("json") => i18n_locale_lint_json::get_json_data(path),
         Some("yaml") | Some("yml") => i18n_locale_lint_yaml::get_yaml_data(path),
         _ => panic!(),
+    };
+
+    if option::INSTANCE.get().unwrap().skip_top_level {
+        return data.skip_top_level();
     }
+
+    data
 }
 
 pub fn check(file_paths: &Vec<&str>) -> i32 {

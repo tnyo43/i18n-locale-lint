@@ -1,13 +1,14 @@
-title: Title
-content: Content
-images: Images
-createdAt: Created At
-updatedAt: Updated At
-author: Author
-category:
-  title: Category
-  business: Business
-  travel: Travel
-  music: Music
-  sports: Sports
-  food: Food
+en:
+  title: Title
+  content: Content
+  images: Images
+  createdAt: Created At
+  updatedAt: Updated At
+  author: Author
+  category:
+    title: Category
+    business: Business
+    travel: Travel
+    music: Music
+    sports: Sports
+    food: Food
