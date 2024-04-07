@@ -2,26 +2,17 @@
 
 This is a package to check JSON/YAML locale files to ensure that all keys are present in each file. It's particularly useful in multilingual applications to guarantee that all languages have the same set of keys.
 
-# Install
+# Run
+
+If you have your locale files at "src/locale" directory, run:
 
 ```bash
-$ npm i i18n-locale-lint
+$ npx run i18n-locale-lint ./src/locale/**/*.json
 ```
 
-# use case
+## Options
 
-Add a script in your package.json.
-
-```json
-{
-  "script": {
-    "i18n-lint": "i18n-locale-lint ./src/i18n/locales/**/*.json"
-  }
-}
-```
-
-Run the script.
-
-```bash
-$ npm run i18n-lint
-```
+| Flag               | Short Flag | Description                                                         |
+| ------------------ | ---------- | ------------------------------------------------------------------- |
+| `--silent`         | `-s`       | Don't display logs other than errors.                               |
+| `--skip-top-level` |            | Assuming the top level is composed solely of a single key, skip it. |
