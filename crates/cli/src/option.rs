@@ -36,8 +36,8 @@ impl CliOption {
         opts.optopt(
             "g",
             "grouped-by",
-            "Group locale file by a regular expression",
-            "`-g \"^(.*/)([^/]+)$\"` by default",
+            "Group locale file by a regular expression. (`-g \"^(.*/)([^/]+)$\"` by default)",
+            "",
         );
 
         let matches = match opts.parse(args) {

@@ -12,7 +12,8 @@ $ npx run i18n-locale-lint ./src/locale/**/*.json
 
 ## Options
 
-| Flag               | Short Flag | Description                                                         |
-| ------------------ | ---------- | ------------------------------------------------------------------- |
-| `--silent`         | `-s`       | Don't display logs other than errors.                               |
-| `--skip-top-level` |            | Assuming the top level is composed solely of a single key, skip it. |
+| Flag               | Short Flag | Description                                                                   |
+| ------------------ | ---------- | ----------------------------------------------------------------------------- |
+| `--silent`         | `-s`       | Don't display logs other than errors.                                         |
+| `--skip-top-level` |            | Assuming the top level is composed solely of a single key, skip it.           |
+| `--grouped-by`     | `-g`       | Group locale file by a regular expression. (`-g "^(.*/)([^/]+)$"` by default) |
