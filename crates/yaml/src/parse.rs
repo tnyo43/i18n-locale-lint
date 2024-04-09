@@ -1,4 +1,3 @@
-use core::panic;
 use std::collections::HashMap;
 
 use i18n_locale_lint_ast::value::{Value, Literal};
@@ -21,7 +20,7 @@ fn convert(value: &serde_yaml::Value) -> Value {
                 (key.as_str().unwrap().to_string(), Box::new(convert(value)))
             })))
         }
-        serde_yaml::Value::Tagged(_) => panic!(),
+        serde_yaml::Value::Tagged(_) => todo!("yaml tag is not able to parse yet."),
     }
 }
 

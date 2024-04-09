@@ -1,4 +1,3 @@
-use core::panic;
 use std::fs;
 
 use crate::parse;
@@ -8,7 +7,7 @@ pub fn get_yaml_data(path: &str) -> i18n_locale_lint_ast::value::Value {
     let content = if let Ok(content) = data {
         content
     } else {
-        panic!("failed to parse");
+        panic!("failed to parse: {}", path);
     };
 
     parse::parse(content)
