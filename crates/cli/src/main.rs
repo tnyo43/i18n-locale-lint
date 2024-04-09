@@ -7,7 +7,7 @@ pub mod option;
 pub fn main() {
     let args: Vec<String> = env::args().collect();
 
-    let option = option::Option::from_cli(&args);
+    let option = option::CliOption::from_cli(&args);
     let _ = option::INSTANCE.set(option);
 
     let mut status_code = 0;
