@@ -3,20 +3,20 @@ use std::process::exit;
 use getopts::Options;
 use once_cell::sync::OnceCell;
 
-pub struct Option {
+pub struct CliOption {
     pub files: Vec<String>,
     pub silent: bool,
     pub skip_top_level: bool,
     pub grouped_by: String,
 }
-pub static INSTANCE: OnceCell<Option> = OnceCell::new();
+pub static INSTANCE: OnceCell<CliOption> = OnceCell::new();
 
 fn print_usage(program: &str, opts: Options) {
     let brief = format!("Usage: {} [options] FILES", program);
     print!("{}", opts.usage(&brief));
 }
 
-impl Option {
+impl CliOption {
     pub fn from_cli(raw_args: &[String]) -> Self {
         let mut silent = false;
         let mut skip_top_level = false;
