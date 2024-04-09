@@ -7,7 +7,7 @@ pub struct CliOption {
     pub files: Vec<String>,
     pub silent: bool,
     pub skip_top_level: bool,
-    pub grouped_by: String,
+    pub grouped_by: Option<String>,
 }
 pub static INSTANCE: OnceCell<CliOption> = OnceCell::new();
 
@@ -20,7 +20,7 @@ impl CliOption {
     pub fn from_cli(raw_args: &[String]) -> Self {
         let mut silent = false;
         let mut skip_top_level = false;
-        let mut grouped_by = "^(.*/)([^/]+)$".to_string();
+        let mut grouped_by = Option::None;
 
         let mut opts = Options::new();
         let program = &raw_args[0];
@@ -56,7 +56,7 @@ impl CliOption {
             skip_top_level = true;
         }
         if let Some(g) = matches.opt_str("grouped-by") {
-            grouped_by = g;
+            grouped_by = Option::Some(g);
         }
 
         let files = matches.free.clone();
