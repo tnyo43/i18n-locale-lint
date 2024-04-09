@@ -2,8 +2,8 @@ use std::collections::HashMap;
 use regex::Regex;
 use crate::option;
 
-fn group(file_paths: &Vec<String>) -> HashMap<String, Vec<String>> {
-    let re = Regex::new(r"^(.*/)([^/]+)$").unwrap();
+fn group(file_paths: &Vec<String>, grouped_by: &str) -> HashMap<String, Vec<String>> {
+    let re = Regex::new(grouped_by).unwrap();
 
     let mut grouped_paths = HashMap::new();
 
@@ -21,8 +21,13 @@ fn group(file_paths: &Vec<String>) -> HashMap<String, Vec<String>> {
 }
 
 pub fn get_file_groups() -> HashMap<String, Vec<String>> {
-    let files = &option::INSTANCE.get().unwrap().files;
-    group(files)
+    let cli_option = option::INSTANCE.get().unwrap();
+    let files = &cli_option.files;
+    let grouped_by = match &cli_option.grouped_by {
+        Some(grouped_by) => grouped_by,
+        None => "^(.*/)([^/]+)$",
+    };
+    group(files, grouped_by)
 }
 
 #[cfg(test)]
@@ -73,6 +78,6 @@ mod tests {
                 "./src/deprecated/feature-x/user-list/i18n/ja.json".to_string(),
             ],
         );
-        assert_eq!(group(&files), expected);
+        assert_eq!(group(&files, "^(.*/)([^/]+)$"), expected);
     }
 }
