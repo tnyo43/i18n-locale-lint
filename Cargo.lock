@@ -58,18 +58,18 @@ checksum = "290f1a1d9242c78d09ce40a5e87e7554ee637af1351968159f4952f028f75604"
 
 [[package]]
 name = "i18n-locale-lint"
-version = "0.1.1"
+version = "0.1.2"
 
 [[package]]
 name = "i18n-locale-lint-ast"
-version = "0.1.1"
+version = "0.1.2"
 dependencies = [
  "itertools",
 ]
 
 [[package]]
 name = "i18n-locale-lint-cli"
-version = "0.1.1"
+version = "0.1.2"
 dependencies = [
  "getopts",
  "i18n-locale-lint-ast",
@@ -81,7 +81,7 @@ dependencies = [
 
 [[package]]
 name = "i18n-locale-lint-json"
-version = "0.1.1"
+version = "0.1.2"
 dependencies = [
  "i18n-locale-lint-ast",
  "insta",
@@ -90,7 +90,7 @@ dependencies = [
 
 [[package]]
 name = "i18n-locale-lint-yaml"
-version = "0.1.1"
+version = "0.1.2"
 dependencies = [
  "i18n-locale-lint-ast",
  "insta",
