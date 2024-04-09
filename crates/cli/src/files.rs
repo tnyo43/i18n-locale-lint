@@ -49,35 +49,36 @@ mod tests {
             "./src/deprecated/feature-x/user-list/i18n/ja.json".to_string(),
         ];
 
-        let mut expected = HashMap::new();
-        expected.insert(
-            "./src/feature-x/user-list/i18n/".to_string(),
-            vec![
-                "./src/feature-x/user-list/i18n/en.json".to_string(),
-                "./src/feature-x/user-list/i18n/ja.json".to_string(),
-            ],
-        );
-        expected.insert(
-            "./src/feature-x/user-detail/i18n/".to_string(),
-            vec![
-                "./src/feature-x/user-detail/i18n/en.json".to_string(),
-                "./src/feature-x/user-detail/i18n/ja.json".to_string(),
-            ],
-        );
-        expected.insert(
-            "./src/feature-y/user-list/i18n/".to_string(),
-            vec![
-                "./src/feature-y/user-list/i18n/en.json".to_string(),
-                "./src/feature-y/user-list/i18n/ja.json".to_string(),
-            ],
-        );
-        expected.insert(
-            "./src/deprecated/feature-x/user-list/i18n/".to_string(),
-            vec![
-                "./src/deprecated/feature-x/user-list/i18n/en.json".to_string(),
-                "./src/deprecated/feature-x/user-list/i18n/ja.json".to_string(),
-            ],
-        );
+        let expected = HashMap::from([
+            (
+                "./src/feature-x/user-list/i18n/".to_string(),
+                Vec::from([
+                    "./src/feature-x/user-list/i18n/en.json".to_string(),
+                    "./src/feature-x/user-list/i18n/ja.json".to_string(),
+                ]),
+            ),
+            (
+                "./src/feature-x/user-detail/i18n/".to_string(),
+                Vec::from([
+                    "./src/feature-x/user-detail/i18n/en.json".to_string(),
+                    "./src/feature-x/user-detail/i18n/ja.json".to_string(),
+                ]),
+            ),
+            (
+                "./src/feature-y/user-list/i18n/".to_string(),
+                Vec::from([
+                    "./src/feature-y/user-list/i18n/en.json".to_string(),
+                    "./src/feature-y/user-list/i18n/ja.json".to_string(),
+                ]),
+            ),
+            (
+                "./src/deprecated/feature-x/user-list/i18n/".to_string(),
+                Vec::from([
+                    "./src/deprecated/feature-x/user-list/i18n/en.json".to_string(),
+                    "./src/deprecated/feature-x/user-list/i18n/ja.json".to_string(),
+                ]),
+            ),
+        ]);
         assert_eq!(group(&files, "^(.*/)([^/]+)$"), expected);
     }
 }
