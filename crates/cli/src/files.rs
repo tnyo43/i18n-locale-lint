@@ -37,17 +37,20 @@ mod tests {
     use crate::files::group;
 
     #[test]
-    fn test_case() {
-        let files = vec![
-            "./src/feature-x/user-list/i18n/en.json".to_string(),
-            "./src/feature-x/user-list/i18n/ja.json".to_string(),
-            "./src/feature-x/user-detail/i18n/en.json".to_string(),
-            "./src/feature-x/user-detail/i18n/ja.json".to_string(),
-            "./src/feature-y/user-list/i18n/en.json".to_string(),
-            "./src/feature-y/user-list/i18n/ja.json".to_string(),
-            "./src/deprecated/feature-x/user-list/i18n/en.json".to_string(),
-            "./src/deprecated/feature-x/user-list/i18n/ja.json".to_string(),
-        ];
+    fn file_names_are_en_json_or_ja_json() {
+        let files = [
+            "./src/feature-x/user-list/i18n/en.json",
+            "./src/feature-x/user-list/i18n/ja.json",
+            "./src/feature-x/user-detail/i18n/en.json",
+            "./src/feature-x/user-detail/i18n/ja.json",
+            "./src/feature-y/user-list/i18n/en.json",
+            "./src/feature-y/user-list/i18n/ja.json",
+            "./src/deprecated/feature-x/user-list/i18n/en.json",
+            "./src/deprecated/feature-x/user-list/i18n/ja.json",
+        ]
+        .iter()
+        .map(|s| s.to_string())
+        .collect();
 
         let expected = HashMap::from([
             (
@@ -80,5 +83,54 @@ mod tests {
             ),
         ]);
         assert_eq!(group(&files, "^(.*/)([^/]+)$"), expected);
+    }
+
+    #[test]
+    fn file_names_are_xxx_en_json_or_xxx_ja_json() {
+        let files = [
+            "./src/feature-x/i18n/list.en.json",
+            "./src/feature-x/i18n/list.ja.json",
+            "./src/feature-x/i18n/detail.en.json",
+            "./src/feature-x/i18n/detail.ja.json",
+            "./src/feature-y/i18n/list.en.json",
+            "./src/feature-y/i18n/list.ja.json",
+            "./src/deprecated/feature-x/i18n/list.en.json",
+            "./src/deprecated/feature-x/i18n/list.ja.json",
+        ]
+        .iter()
+        .map(|s| s.to_string())
+        .collect();
+
+        let expected = HashMap::from([
+            (
+                "./src/feature-x/i18n/list.".to_string(),
+                Vec::from([
+                    "./src/feature-x/i18n/list.en.json".to_string(),
+                    "./src/feature-x/i18n/list.ja.json".to_string(),
+                ]),
+            ),
+            (
+                "./src/feature-x/i18n/detail.".to_string(),
+                Vec::from([
+                    "./src/feature-x/i18n/detail.en.json".to_string(),
+                    "./src/feature-x/i18n/detail.ja.json".to_string(),
+                ]),
+            ),
+            (
+                "./src/feature-y/i18n/list.".to_string(),
+                Vec::from([
+                    "./src/feature-y/i18n/list.en.json".to_string(),
+                    "./src/feature-y/i18n/list.ja.json".to_string(),
+                ]),
+            ),
+            (
+                "./src/deprecated/feature-x/i18n/list.".to_string(),
+                Vec::from([
+                    "./src/deprecated/feature-x/i18n/list.en.json".to_string(),
+                    "./src/deprecated/feature-x/i18n/list.ja.json".to_string(),
+                ]),
+            ),
+        ]);
+        assert_eq!(group(&files, "^(.*)(en|ja).json$"), expected);
     }
 }
