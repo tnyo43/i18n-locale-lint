@@ -7,6 +7,7 @@ pub struct Option {
     pub files: Vec<String>,
     pub silent: bool,
     pub skip_top_level: bool,
+    pub grouped_by: String,
 }
 pub static INSTANCE: OnceCell<Option> = OnceCell::new();
 
@@ -19,6 +20,7 @@ impl Option {
     pub fn from_cli(raw_args: &[String]) -> Self {
         let mut silent = false;
         let mut skip_top_level = false;
+        let mut grouped_by = "^(.*/)([^/]+)$".to_string();
 
         let mut opts = Options::new();
         let program = &raw_args[0];
@@ -30,6 +32,12 @@ impl Option {
             "",
             "skip-top-level",
             "Assuming the top level is composed solely of a single key, skip it.",
+        );
+        opts.optopt(
+            "g",
+            "grouped-by",
+            "Group locale file by a regular expression",
+            "`-g \"^(.*/)([^/]+)$\"` by default",
         );
 
         let matches = match opts.parse(args) {
@@ -47,12 +55,17 @@ impl Option {
         if matches.opt_present("skip-top-level") {
             skip_top_level = true;
         }
+        if let Some(g) = matches.opt_str("grouped-by") {
+            grouped_by = g;
+        }
+
         let files = matches.free.clone();
 
         Self {
             files,
             silent,
             skip_top_level,
+            grouped_by,
         }
     }
 }
