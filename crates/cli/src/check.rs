@@ -7,7 +7,7 @@ fn read_json_file(path: &str) -> Value {
     let data = match Path::new(path).extension().and_then(OsStr::to_str) {
         Some("json") => i18n_locale_lint_json::get_json_data(path),
         Some("yaml") | Some("yml") => i18n_locale_lint_yaml::get_yaml_data(path),
-        _ => panic!(),
+        _ => panic!("unknown file type: {}", path),
     };
 
     if option::INSTANCE.get().unwrap().skip_top_level {
