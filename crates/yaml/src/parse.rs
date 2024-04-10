@@ -37,12 +37,16 @@ fn convert(value: &serde_yaml::Value) -> Value {
         serde_yaml::Value::Bool(b) => Value::Literal(Literal::Bool(*b)),
         serde_yaml::Value::Number(n) => Value::Literal(Literal::Number(n.as_f64().unwrap())),
         serde_yaml::Value::Null => Value::Literal(Literal::Null),
+        serde_yaml::Value::Tagged(t) => Value::Literal(Literal::String(format!(
+            "{} {}",
+            &t.tag.to_string(),
+            to_string(&t.value)
+        ))),
         serde_yaml::Value::Sequence(arr) => Value::Array(arr.iter().map(convert).collect()),
         serde_yaml::Value::Mapping(obj) => Value::Map(HashMap::from_iter(
             obj.iter()
                 .map(|(key, value)| (to_string(key), Box::new(convert(value)))),
         )),
-        serde_yaml::Value::Tagged(_) => todo!("yaml tag is not able to parse yet."),
     }
 }
 
@@ -122,11 +126,11 @@ date:
     - full: February
       short: Feb
   formats:
-    default: yyyy/MM/dd
-    monthDay: MM/dd
-    yearMonth: yyyy/MM
-    time: hh:mm
-    full: yyyy/MM/dd hh:mm
+    default: !DateFormat yyyy/MM/dd
+    monthDay: !DateFormat MM/dd
+    yearMonth: !DateFormat yyyy/MM
+    time: !TimeFormat hh:mm
+    full: !DateTimeFormat yyyy/MM/dd hh:mm
 answer:
   True: Yes
   False: No
@@ -161,11 +165,11 @@ error:
       "...",
     ],
     "formats": {
-      "default": "yyyy/MM/dd",
-      "full": "yyyy/MM/dd hh:mm",
-      "monthDay": "MM/dd",
-      "time": "hh:mm",
-      "yearMonth": "yyyy/MM",
+      "default": "!DateFormat yyyy/MM/dd",
+      "full": "!DateTimeFormat yyyy/MM/dd hh:mm",
+      "monthDay": "!DateFormat MM/dd",
+      "time": "!TimeFormat hh:mm",
+      "yearMonth": "!DateFormat yyyy/MM",
     },
     "monthNames": [
       {
