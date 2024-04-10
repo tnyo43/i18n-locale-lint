@@ -2,8 +2,8 @@ use std::collections::HashMap;
 
 use i18n_locale_lint_ast::value::{Value, Literal};
 
-pub fn parse(content: String) -> i18n_locale_lint_ast::value::Value {
-    let serde_value = serde_yaml::from_str(&content).unwrap();
+pub fn parse(content: &str) -> i18n_locale_lint_ast::value::Value {
+    let serde_value = serde_yaml::from_str(content).unwrap();
 
     convert(&serde_value)
 }
@@ -63,8 +63,7 @@ dayNames:
 - Thu
 - Fri
 - Sat
-    "
-    .to_string();
+    ";
 
     assert_snapshot!(parse(content),
     @r#"{
@@ -92,10 +91,9 @@ currency:
   precision: 3
   strip_insignificant_zeros: false
   unit: $
-"#
-    .to_string();
+"#;
 
-    println!("{}", parse(content.clone()));
+    println!("{}", parse(content));
 
     assert_snapshot!(parse(content),
     @r#"{
@@ -144,8 +142,7 @@ error:
     too long:
       one: is too long (maximum is %{count} character)
       other: is too long (maximum is %{count} characters)
-    "#
-    .to_string();
+    "#;
 
     assert_snapshot!(
         parse(content),

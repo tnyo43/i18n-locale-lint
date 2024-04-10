@@ -3,8 +3,8 @@ use std::collections::HashMap;
 
 use i18n_locale_lint_ast::value::{Value, Literal};
 
-pub fn parse(content: String) -> i18n_locale_lint_ast::value::Value {
-    let serde_value = serde_json::from_str(&content).unwrap();
+pub fn parse(content: &str) -> i18n_locale_lint_ast::value::Value {
+    let serde_value = serde_json::from_str(content).unwrap();
 
     convert(&serde_value)
 }
@@ -31,8 +31,7 @@ fn string_array() {
 { 
   "dayNames": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 }
-    "#
-    .to_string();
+    "#;
 
     assert_snapshot!(parse(content),
     @r#"{
@@ -63,8 +62,7 @@ fn object_with_types() {
     "unit": "$"
   }
 }
-    "#
-    .to_string();
+    "#;
 
     assert_snapshot!(parse(content),
     @r#"{
@@ -106,8 +104,7 @@ fn nested_object() {
     }
   }
 }
-    "#
-    .to_string();
+    "#;
 
     assert_snapshot!(
         parse(content),

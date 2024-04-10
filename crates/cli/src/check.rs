@@ -1,20 +1,26 @@
 use i18n_locale_lint_ast::value::Value;
-use std::{ffi::OsStr, path::Path};
+use std::{ffi::OsStr, fs, path::Path};
 
-use crate::option;
+use crate::{error::CliError, option};
 
-fn read_json_file(path: &str) -> Value {
-    let data = match Path::new(path).extension().and_then(OsStr::to_str) {
-        Some("json") => i18n_locale_lint_json::get_json_data(path),
-        Some("yaml") | Some("yml") => i18n_locale_lint_yaml::get_yaml_data(path),
-        _ => panic!("unknown file type: {}", path),
+fn read_json_file(path: &str) -> Result<Value, CliError> {
+    let get_data = match Path::new(path).extension().and_then(OsStr::to_str) {
+        Some("json") => i18n_locale_lint_json::parse,
+        Some("yaml") | Some("yml") => i18n_locale_lint_yaml::parse,
+        _ => return Err(CliError::UnknownExtension),
+    };
+
+    let content = fs::read_to_string(path);
+    let data = match content {
+        Ok(content) => get_data(&content),
+        Err(e) => return Err(CliError::FileReadError),
     };
 
     if option::INSTANCE.get().unwrap().skip_top_level {
-        return data.skip_top_level();
+        return Ok(data.skip_top_level());
     }
 
-    data
+    Ok(data)
 }
 
 pub fn check(file_paths: &Vec<&str>) -> i32 {
@@ -32,9 +38,23 @@ pub fn check(file_paths: &Vec<&str>) -> i32 {
 
     let mut status_code = 0;
     let base_file_path = &file_paths[0];
-    let base_data = read_json_file(base_file_path);
+    let base_data = match read_json_file(base_file_path) {
+        Ok(data) => data,
+        Err(e) => {
+            eprint!("{}", e);
+            return 1;
+        }
+    };
+
     for &target_file_path in file_paths.iter().skip(1) {
-        let target_data = read_json_file(target_file_path);
+        let target_data = match read_json_file(target_file_path) {
+            Ok(data) => data,
+            Err(e) => {
+                eprint!("{}", e);
+                return 1;
+            }
+        };
+
         let result = base_data.compare(&mut vec![], &target_data);
         if let Some(diff) = result {
             diff.display(base_file_path, target_file_path);
