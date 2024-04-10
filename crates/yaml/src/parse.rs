@@ -15,7 +15,7 @@ pub fn to_string(key: &serde_yaml::Value) -> String {
         serde_yaml::Value::Number(n) => n.to_string(),
         serde_yaml::Value::String(s) => s.to_string(),
         serde_yaml::Value::Tagged(t) => {
-            format!("{}:{}", &t.tag.to_string(), to_string(&t.value))
+            format!("{} {}", &t.tag.to_string(), to_string(&t.value))
         }
         serde_yaml::Value::Sequence(arr) => format!(
             "[{}]",
@@ -150,7 +150,7 @@ error:
     assert_snapshot!(
         parse(content),
     @r#"{
-  "!Tag:0": "tag 0",
+  "!Tag 0": "tag 0",
   "answer": {
     "0": "Zero",
     "1": "One",
