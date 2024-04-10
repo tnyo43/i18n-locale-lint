@@ -1,8 +1,8 @@
-use std::fmt::Display;
+use std::{fmt::Display, io::Error};
 
 pub enum CliError<'a> {
     UnknownExtension(&'a str, Option<&'a str>),
-    FileReadError,
+    FileReadError(Error),
 }
 
 impl<'a> Display for CliError<'a> {
@@ -15,7 +15,7 @@ impl<'a> Display for CliError<'a> {
                     write!(f, "Failed to extension for {}", path)
                 }
             }
-            CliError::FileReadError => todo!(),
+            CliError::FileReadError(e) => write!(f, "{}", e),
         }
     }
 }

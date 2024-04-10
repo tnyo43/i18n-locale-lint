@@ -13,7 +13,7 @@ fn read_json_file(path: &str) -> Result<Value, CliError> {
     let content = fs::read_to_string(path);
     let data = match content {
         Ok(content) => get_data(&content),
-        Err(e) => return Err(CliError::FileReadError),
+        Err(e) => return Err(CliError::FileReadError(e)),
     };
 
     if option::INSTANCE.get().unwrap().skip_top_level {
@@ -41,7 +41,7 @@ pub fn check(file_paths: &Vec<&str>) -> i32 {
     let base_data = match read_json_file(base_file_path) {
         Ok(data) => data,
         Err(e) => {
-            eprint!("{}", e);
+            eprintln!("{}", e);
             return 1;
         }
     };
@@ -50,8 +50,9 @@ pub fn check(file_paths: &Vec<&str>) -> i32 {
         let target_data = match read_json_file(target_file_path) {
             Ok(data) => data,
             Err(e) => {
-                eprint!("{}", e);
-                return 1;
+                eprintln!("{}", e);
+                status_code = 1;
+                continue;
             }
         };
 
