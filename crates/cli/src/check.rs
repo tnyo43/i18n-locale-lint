@@ -7,7 +7,7 @@ fn read_json_file(path: &str) -> Result<Value, CliError> {
     let get_data = match Path::new(path).extension().and_then(OsStr::to_str) {
         Some("json") => i18n_locale_lint_json::parse,
         Some("yaml") | Some("yml") => i18n_locale_lint_yaml::parse,
-        _ => return Err(CliError::UnknownExtension),
+        v => return Err(CliError::UnknownExtension(path, v)),
     };
 
     let content = fs::read_to_string(path);

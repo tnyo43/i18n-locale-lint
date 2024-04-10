@@ -1,12 +1,21 @@
 use std::fmt::Display;
 
-pub enum CliError {
-    UnknownExtension,
+pub enum CliError<'a> {
+    UnknownExtension(&'a str, Option<&'a str>),
     FileReadError,
 }
 
-impl Display for CliError {
+impl<'a> Display for CliError<'a> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        todo!()
+        match self {
+            CliError::UnknownExtension(path, e) => {
+                if let Some(ext) = e {
+                    write!(f, "Unknown file extension: {} for {}", ext, path)
+                } else {
+                    write!(f, "Failed to extension for {}", path)
+                }
+            }
+            CliError::FileReadError => todo!(),
+        }
     }
 }
