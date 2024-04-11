@@ -1,7 +1,10 @@
 use i18n_locale_lint_ast::value::Value;
 use std::{ffi::OsStr, fs, path::Path};
 
-use crate::{error::CliError, option};
+use crate::{
+    error::{display_error, CliError},
+    option,
+};
 
 fn read_json_file(path: &str) -> Result<Value, CliError> {
     let get_data = match Path::new(path).extension().and_then(OsStr::to_str) {
@@ -46,7 +49,7 @@ pub fn check(file_paths: &Vec<&str>) -> i32 {
     let base_data = match read_json_file(base_file_path) {
         Ok(data) => data,
         Err(e) => {
-            eprintln!("{}", e);
+            display_error(e);
             return 1;
         }
     };
@@ -55,8 +58,7 @@ pub fn check(file_paths: &Vec<&str>) -> i32 {
         let target_data = match read_json_file(target_file_path) {
             Ok(data) => data,
             Err(e) => {
-                eprintln!("{}", e);
-                status_code = 1;
+                display_error(e);
                 continue;
             }
         };

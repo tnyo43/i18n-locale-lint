@@ -23,3 +23,9 @@ impl<'a> Display for CliError<'a> {
         }
     }
 }
+
+pub fn display_error(error: CliError) {
+    eprint!("\x1b[31m");
+    eprintln!("{}\n", error);
+    eprint!("\x1b[m");
+}
