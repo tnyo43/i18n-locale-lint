@@ -13,7 +13,7 @@ fn read_json_file(path: &str) -> Result<Value, CliError> {
         v => return Err(CliError::UnknownExtension(path, v)),
     };
 
-    let content = fs::read_to_string(path).map_err(|e| CliError::FileReadError(e));
+    let content = fs::read_to_string(path).map_err(CliError::FileReadError);
 
     let data = match content.and_then(|content| {
         get_data(&content, |message: String| {
@@ -25,7 +25,7 @@ fn read_json_file(path: &str) -> Result<Value, CliError> {
     };
 
     if option::INSTANCE.get().unwrap().skip_top_level {
-        return Ok(data.skip_top_level());
+        return data.skip_top_level().map_err(CliError::SkipTopLevelError);
     }
 
     Ok(data)
