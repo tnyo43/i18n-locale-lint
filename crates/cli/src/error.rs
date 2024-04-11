@@ -3,6 +3,7 @@ use std::{fmt::Display, io::Error};
 pub enum CliError<'a> {
     UnknownExtension(&'a str, Option<&'a str>),
     FileReadError(Error),
+    ParseError(&'a str, String),
 }
 
 impl<'a> Display for CliError<'a> {
@@ -16,6 +17,9 @@ impl<'a> Display for CliError<'a> {
                 }
             }
             CliError::FileReadError(e) => write!(f, "{}", e),
+            CliError::ParseError(path, message) => {
+                write!(f, "Parse error:{}\nin {}", message, path)
+            }
         }
     }
 }

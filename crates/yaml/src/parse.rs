@@ -1,15 +1,18 @@
 use std::collections::HashMap;
 
 use i18n_locale_lint_ast::value::{Value, Literal};
-use serde_yaml::from_str;
+use serde_yaml::{from_str, Error};
 
-pub fn parse<E>(
-    content: &str,
-    to_error: fn(String) -> E,
-) -> Result<i18n_locale_lint_ast::value::Value, E> {
+pub fn parse<E, F>(content: &str, to_error: F) -> Result<i18n_locale_lint_ast::value::Value, E>
+where
+    F: Fn(String) -> E,
+{
     from_str::<serde_yaml::Value>(content)
         .map(|v| convert(&v))
-        .map_err(|e| to_error(e.to_string()))
+        .map_err(|e: Error| {
+            let message = e.to_string().clone();
+            to_error(message)
+        })
 }
 
 pub fn to_string(key: &serde_yaml::Value) -> String {

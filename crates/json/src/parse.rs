@@ -3,10 +3,10 @@ use std::collections::HashMap;
 
 use i18n_locale_lint_ast::value::{Value, Literal};
 
-pub fn parse<E>(
-    content: &str,
-    to_error: fn(String) -> E,
-) -> Result<i18n_locale_lint_ast::value::Value, E> {
+pub fn parse<E, F>(content: &str, to_error: F) -> Result<i18n_locale_lint_ast::value::Value, E>
+where
+    F: Fn(String) -> E,
+{
     from_str::<serde_json::Value>(content)
         .map(|v| convert(&v))
         .map_err(|e| to_error(e.to_string()))

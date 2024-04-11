@@ -10,10 +10,15 @@ fn read_json_file(path: &str) -> Result<Value, CliError> {
         v => return Err(CliError::UnknownExtension(path, v)),
     };
 
-    let content = fs::read_to_string(path);
-    let data = match content {
-        Ok(content) => get_data(&content),
-        Err(e) => return Err(CliError::FileReadError(e)),
+    let content = fs::read_to_string(path).map_err(|e| CliError::FileReadError(e));
+
+    let data = match content.and_then(|content| {
+        get_data(&content, |message: String| {
+            CliError::ParseError(path, message)
+        })
+    }) {
+        Ok(data) => data,
+        Err(e) => return Err(e),
     };
 
     if option::INSTANCE.get().unwrap().skip_top_level {
