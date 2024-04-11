@@ -1,6 +1,7 @@
 use std::{env, process::exit};
 
 mod check;
+mod error;
 mod files;
 pub mod option;
 

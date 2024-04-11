@@ -1,12 +1,15 @@
-use serde_json::{self};
+use serde_json::{self, from_str};
 use std::collections::HashMap;
 
 use i18n_locale_lint_ast::value::{Value, Literal};
 
-pub fn parse(content: String) -> i18n_locale_lint_ast::value::Value {
-    let serde_value = serde_json::from_str(&content).unwrap();
-
-    convert(&serde_value)
+pub fn parse<E, F>(content: &str, to_error: F) -> Result<i18n_locale_lint_ast::value::Value, E>
+where
+    F: Fn(String) -> E,
+{
+    from_str::<serde_json::Value>(content)
+        .map(|v| convert(&v))
+        .map_err(|e| to_error(e.to_string()))
 }
 
 pub fn convert(value: &serde_json::Value) -> Value {
@@ -31,10 +34,9 @@ fn string_array() {
 { 
   "dayNames": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 }
-    "#
-    .to_string();
+    "#;
 
-    assert_snapshot!(parse(content),
+    assert_snapshot!(parse(content, |_| "error".to_string()).unwrap(),
     @r#"{
   "dayNames": [
     "Sun",
@@ -63,10 +65,9 @@ fn object_with_types() {
     "unit": "$"
   }
 }
-    "#
-    .to_string();
+    "#;
 
-    assert_snapshot!(parse(content),
+    assert_snapshot!(parse(content, |_| "error".to_string()).unwrap(),
     @r#"{
   "currency": {
     "delimiter": ",",
@@ -106,11 +107,9 @@ fn nested_object() {
     }
   }
 }
-    "#
-    .to_string();
+    "#;
 
-    assert_snapshot!(
-        parse(content),
+    assert_snapshot!(parse(content, |_| "error".to_string()).unwrap(),
     @r#"{
   "date": {
     "dayNames": [
@@ -147,4 +146,16 @@ fn nested_object() {
   },
 }"#
     );
+}
+
+#[test]
+fn invalid_json() {
+    let content = r#"
+    invalid json
+    "#;
+
+    assert_eq!(
+        parse(content, |e| e.to_string()),
+        Err("expected value at line 2 column 5".to_string())
+    )
 }

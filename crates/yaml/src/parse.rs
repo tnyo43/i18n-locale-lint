@@ -1,11 +1,18 @@
 use std::collections::HashMap;
 
 use i18n_locale_lint_ast::value::{Value, Literal};
+use serde_yaml::{from_str, Error};
 
-pub fn parse(content: String) -> i18n_locale_lint_ast::value::Value {
-    let serde_value = serde_yaml::from_str(&content).unwrap();
-
-    convert(&serde_value)
+pub fn parse<E, F>(content: &str, to_error: F) -> Result<i18n_locale_lint_ast::value::Value, E>
+where
+    F: Fn(String) -> E,
+{
+    from_str::<serde_yaml::Value>(content)
+        .map(|v| convert(&v))
+        .map_err(|e: Error| {
+            let message = e.to_string().clone();
+            to_error(message)
+        })
 }
 
 pub fn to_string(key: &serde_yaml::Value) -> String {
@@ -63,10 +70,9 @@ dayNames:
 - Thu
 - Fri
 - Sat
-    "
-    .to_string();
+    ";
 
-    assert_snapshot!(parse(content),
+    assert_snapshot!(parse(content, |_| "error".to_string()).unwrap(),
     @r#"{
   "dayNames": [
     "Sun",
@@ -92,12 +98,9 @@ currency:
   precision: 3
   strip_insignificant_zeros: false
   unit: $
-"#
-    .to_string();
+"#;
 
-    println!("{}", parse(content.clone()));
-
-    assert_snapshot!(parse(content),
+    assert_snapshot!(parse(content, |_| "error".to_string()).unwrap(),
     @r#"{
   "currency": {
     "delimiter": ",",
@@ -144,11 +147,9 @@ error:
     too long:
       one: is too long (maximum is %{count} character)
       other: is too long (maximum is %{count} characters)
-    "#
-    .to_string();
+    "#;
 
-    assert_snapshot!(
-        parse(content),
+    assert_snapshot!(parse(content, |_| "error".to_string()).unwrap(),
     @r#"{
   "!Tag 0": "tag 0",
   "answer": {
@@ -193,4 +194,17 @@ error:
   },
 }"#
     );
+}
+
+#[test]
+fn invalid_yaml() {
+    let content = r#"
+  same_key: hi
+  same_key: yo
+    "#;
+
+    assert_eq!(
+        parse(content, |e| e.to_string()),
+        Err("duplicate entry with key \"same_key\" at line 2 column 3".to_string())
+    )
 }
