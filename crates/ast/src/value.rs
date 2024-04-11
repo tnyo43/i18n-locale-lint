@@ -25,10 +25,12 @@ impl Value {
         }
     }
 
-    pub fn skip_top_level(&self) -> Self {
+    pub fn skip_top_level(&self) -> Result<Self, String> {
         if let Self::Map(map) = self {
             if map.is_empty() {
-                panic!("expect the top level value is a singleton map, but is empty");
+                return Err(
+                    "expect the top level value is a singleton map, but is empty".to_string(),
+                );
             }
             if map.keys().len() != 1 {
                 let keys = map
@@ -36,19 +38,19 @@ impl Value {
                     .map(|s| "\"".to_string() + s + "\"")
                     .sorted()
                     .join(", ");
-                panic!(
+                return Err(format!(
                     "expect the top level value is a singleton map, but it has multiple keys: {}",
-                    keys
-                );
+                    keys,
+                ));
             }
             let key = map.keys().collect::<Vec<_>>()[0];
 
-            return *map.get(key).unwrap().clone();
+            return Ok(*map.get(key).unwrap().clone());
         } else {
-            panic!(
+            return Err(format!(
                 "expect the top level value is a singleton map, but is actually a {}",
                 self.value_type()
-            );
+            ));
         }
     }
 }
@@ -70,21 +72,27 @@ mod skip_top_level_tests {
         pub use crate::value::{Literal, Value};
 
         #[test]
-        #[should_panic(
-            expected = "expect the top level value is a singleton map, but is actually a literal"
-        )]
         fn if_the_value_is_literal() {
             let value = Value::Literal(Literal::Null);
-            value.skip_top_level();
+            assert_eq!(
+                value.skip_top_level(),
+                Err(
+                    "expect the top level value is a singleton map, but is actually a literal"
+                        .to_string()
+                )
+            );
         }
 
         #[test]
-        #[should_panic(
-            expected = "expect the top level value is a singleton map, but is actually a array"
-        )]
         fn if_the_value_is_array() {
             let value = Value::Array(vec![]);
-            value.skip_top_level();
+            assert_eq!(
+                value.skip_top_level(),
+                Err(
+                    "expect the top level value is a singleton map, but is actually a array"
+                        .to_string()
+                )
+            );
         }
     }
 
@@ -93,16 +101,15 @@ mod skip_top_level_tests {
         pub use crate::value::{Literal, Value};
 
         #[test]
-        #[should_panic(expected = "expect the top level value is a singleton map, but is empty")]
         fn if_the_value_is_an_empty_map() {
             let value = Value::Map(HashMap::from([]));
-            value.skip_top_level();
+            assert_eq!(
+                value.skip_top_level(),
+                Err("expect the top level value is a singleton map, but is empty".to_string())
+            );
         }
 
         #[test]
-        #[should_panic(
-            expected = "expect the top level value is a singleton map, but it has multiple keys: \"greeting\", \"name\", \"phone\""
-        )]
         fn if_the_value_has_multiple_keys() {
             let value = Value::Map(HashMap::from([
                 (
@@ -118,7 +125,13 @@ mod skip_top_level_tests {
                     Box::new(Value::Literal(Literal::String("phone number".to_string()))),
                 ),
             ]));
-            value.skip_top_level();
+            assert_eq!(
+                value.skip_top_level(),
+                Err(
+                  "expect the top level value is a singleton map, but it has multiple keys: \"greeting\", \"name\", \"phone\""
+                        .to_string()
+                )
+            );
         }
     }
 
@@ -144,7 +157,7 @@ mod skip_top_level_tests {
         let new_value = value.skip_top_level();
         assert_eq!(
             new_value,
-            Value::Map(HashMap::from([
+            Ok(Value::Map(HashMap::from([
                 (
                     "name".to_string(),
                     Box::new(Value::Literal(Literal::String("Alice".to_string()))),
@@ -157,7 +170,7 @@ mod skip_top_level_tests {
                     "phone".to_string(),
                     Box::new(Value::Literal(Literal::String("phone number".to_string()))),
                 ),
-            ]))
+            ])))
         );
     }
 }

@@ -4,6 +4,7 @@ pub enum CliError<'a> {
     UnknownExtension(&'a str, Option<&'a str>),
     FileReadError(Error),
     ParseError(&'a str, String),
+    SkipTopLevelError(String),
 }
 
 impl<'a> Display for CliError<'a> {
@@ -19,6 +20,9 @@ impl<'a> Display for CliError<'a> {
             CliError::FileReadError(e) => write!(f, "{}", e),
             CliError::ParseError(path, message) => {
                 write!(f, "Parse error:{}\nin {}", message, path)
+            }
+            CliError::SkipTopLevelError(message) => {
+                write!(f, "{}", message)
             }
         }
     }
