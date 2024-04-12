@@ -57,38 +57,38 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "290f1a1d9242c78d09ce40a5e87e7554ee637af1351968159f4952f028f75604"
 
 [[package]]
-name = "i18n-locale-lint-ast"
+name = "i18n_locale_lint_ast"
 version = "0.1.2"
 dependencies = [
  "itertools",
 ]
 
 [[package]]
-name = "i18n-locale-lint-cli"
+name = "i18n_locale_lint_cli"
 version = "0.1.2"
 dependencies = [
  "getopts",
- "i18n-locale-lint-ast",
- "i18n-locale-lint-json",
- "i18n-locale-lint-yaml",
+ "i18n_locale_lint_ast",
+ "i18n_locale_lint_json",
+ "i18n_locale_lint_yaml",
  "once_cell",
  "regex",
 ]
 
 [[package]]
-name = "i18n-locale-lint-json"
+name = "i18n_locale_lint_json"
 version = "0.1.2"
 dependencies = [
- "i18n-locale-lint-ast",
+ "i18n_locale_lint_ast",
  "insta",
  "serde_json",
 ]
 
 [[package]]
-name = "i18n-locale-lint-yaml"
+name = "i18n_locale_lint_yaml"
 version = "0.1.2"
 dependencies = [
- "i18n-locale-lint-ast",
+ "i18n_locale_lint_ast",
  "insta",
  "serde_yaml",
 ]

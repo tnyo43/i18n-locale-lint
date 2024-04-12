@@ -1,5 +1,5 @@
 [package]
-name = "i18n-locale-lint-ast"
+name = "i18n_locale_lint_ast"
 version = "0.1.2"
 edition = "2021"
 

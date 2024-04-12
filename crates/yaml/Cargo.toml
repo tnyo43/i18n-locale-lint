@@ -1,10 +1,10 @@
 [package]
-name = "i18n-locale-lint-yaml"
+name = "i18n_locale_lint_yaml"
 version = "0.1.2"
 edition = "2021"
 
 [dependencies]
-i18n-locale-lint-ast = { path = "../ast" }
+i18n_locale_lint_ast = { path = "../ast" }
 serde_yaml = "0.9.34"
 
 [dev-dependencies]
