@@ -14,7 +14,7 @@ const wasi = new WASI({
   },
 });
 
-const url = new URL("../wasm/i18n-locale-lint-cli.wasm", import.meta.url);
+const url = new URL("../wasm/i18n_locale_lint_cli.wasm", import.meta.url);
 const wasm = await WebAssembly.compile(fs.readFileSync(url));
 const importObject = { wasi_snapshot_preview1: wasi.wasiImport };
 const instance = await WebAssembly.instantiate(wasm, importObject);
