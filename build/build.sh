@@ -9,8 +9,8 @@ fi
 
 echo $TARGET_DIR build
 
-rm -rf wasm
-cargo wasi build $TAG || { echo "build failed"; exit 1; }
+rm -rf bin/executable
+cargo build $TAG || { echo "build failed"; exit 1; }
 
-mkdir -p wasm
-mv ./target/wasm32-wasi/$TARGET_DIR/i18n_locale_lint_cli.wasm wasm/i18n_locale_lint_cli.wasm
+mkdir -p bin/executable
+mv ./target/$TARGET_DIR/i18n_locale_lint_cli bin/executable/i18n_locale_lint_cli

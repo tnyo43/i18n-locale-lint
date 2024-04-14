@@ -1,23 +1,26 @@
-#!/usr/bin/env node --experimental-wasi-unstable-preview1
+#!/usr/bin/env node
 
-import fs from "node:fs";
+import { spawn } from "node:child_process";
+import path from "node:path";
 import { exit } from "node:process";
-import { WASI } from "wasi";
+import { fileURLToPath } from "node:url";
 
-const PROGRAM = "i18n-locale-lint";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-const wasi = new WASI({
-  version: "preview1",
-  args: [PROGRAM, ...process.argv.slice(2)],
-  preopens: {
-    ".": ".",
-  },
+const EXE_FILE = "./executable/i18n_locale_lint_cli";
+const args = process.argv;
+
+const childProcess = spawn(path.resolve(__dirname, EXE_FILE), args.slice(2));
+
+childProcess.stdout.on("data", (data) => {
+  console.log(`${data}`);
 });
 
-const url = new URL("../wasm/i18n_locale_lint_cli.wasm", import.meta.url);
-const wasm = await WebAssembly.compile(fs.readFileSync(url));
-const importObject = { wasi_snapshot_preview1: wasi.wasiImport };
-const instance = await WebAssembly.instantiate(wasm, importObject);
+childProcess.stderr.on("data", (data) => {
+  console.error(`${data}`);
+});
 
-const statusCode = wasi.start(instance);
-exit(statusCode);
+childProcess.on("close", (code) => {
+  exit(code);
+});
