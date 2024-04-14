@@ -14,7 +14,7 @@
     "i18n-locale-lint": "./bin/main.mjs"
   },
   "files": [
-    "wasm"
+    "bin"
   ],
   "author": "Tomoya Kashifuku<tnyo43@gmail.com>",
   "license": "MIT"
