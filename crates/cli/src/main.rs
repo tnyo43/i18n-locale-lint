@@ -11,11 +11,34 @@ pub fn main() {
     let option = option::CliOption::from_cli(&args);
     let _ = option::INSTANCE.set(option);
 
-    let mut status_code = 0;
+    let mut failure_count = 0;
 
     let file_groups = files::get_file_groups();
-    for group in file_groups {
-        status_code |= check::check(&group.1.iter().map(|p| p.as_str()).collect());
+    for group in &file_groups {
+        let status_code = check::check(&group.1.iter().map(|p| p.as_str()).collect());
+        if status_code != 0 {
+            failure_count += 1
+        }
+    }
+    let status_code = if failure_count == 0 { 0 } else { 1 };
+
+    if !option::INSTANCE.get().unwrap().silent {
+        println!(
+            "\nChecked {} files, {} groups",
+            option::INSTANCE.get().unwrap().files.len(),
+            &file_groups.len()
+        );
+        if status_code != 0 {
+            print!("\x1b[31m");
+        } else {
+            print!("\x1b[32m");
+        }
+        println!(
+            "Found {} mismatched group{}",
+            failure_count,
+            if failure_count >= 2 { "s" } else { "" }
+        );
+        print!("\x1b[m");
     }
 
     exit(status_code)
