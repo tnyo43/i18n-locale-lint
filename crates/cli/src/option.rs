@@ -8,6 +8,7 @@ pub struct CliOption {
     pub silent: bool,
     pub skip_top_level: bool,
     pub grouped_by: Option<String>,
+    pub group_size: Option<u8>,
 }
 pub static INSTANCE: OnceCell<CliOption> = OnceCell::new();
 
@@ -39,6 +40,12 @@ impl CliOption {
             "Group locale file by a regular expression. (`-g \"^(.*/)([^/]+)$\"` by default)",
             "",
         );
+        opts.optopt(
+            "",
+            "group-size",
+            "If it is specified, fails when the size of a group is not equal to it.",
+            "",
+        );
 
         let matches = match opts.parse(args) {
             Ok(m) => m,
@@ -58,6 +65,10 @@ impl CliOption {
         if let Some(g) = matches.opt_str("grouped-by") {
             grouped_by = Option::Some(g);
         }
+        let group_size = matches.opt_str("group_size").map(|s| {
+            s.parse::<u8>()
+                .unwrap_or_else(|_| panic!("invalid group_size value: {}", s))
+        });
 
         let free = matches.free.clone();
         let files: Vec<OsString> = match free.len() {
@@ -83,6 +94,7 @@ impl CliOption {
             silent,
             skip_top_level,
             grouped_by,
+            group_size,
         }
     }
 }
