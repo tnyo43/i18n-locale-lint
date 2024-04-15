@@ -9,3 +9,4 @@ strip = true
 opt-level = "z"
 lto = true
 codegen-unit = 1
+panic = "abort"
