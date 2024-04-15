@@ -1,10 +1,10 @@
-use std::process::exit;
-
+use std::{ffi::OsString, process::exit};
 use getopts::Options;
+use glob::glob;
 use once_cell::sync::OnceCell;
 
 pub struct CliOption {
-    pub files: Vec<String>,
+    pub files: Vec<OsString>,
     pub silent: bool,
     pub skip_top_level: bool,
     pub grouped_by: Option<String>,
@@ -59,7 +59,25 @@ impl CliOption {
             grouped_by = Option::Some(g);
         }
 
-        let files = matches.free.clone();
+        let free = matches.free.clone();
+        let files: Vec<OsString> = match free.len() {
+            // if the length of "free" is 1, assume it is a glob pattern
+            1 => {
+                let mut paths = match glob(free[0].as_str()) {
+                    Ok(paths) => paths,
+                    Err(e) => panic!("{}", e.to_string()),
+                };
+
+                if let Some(error) = paths.find_map(|p| if p.is_err() { Some(p) } else { None }) {
+                    panic!("{:?}", error.unwrap());
+                }
+
+                paths
+                    .map(|p| p.unwrap().into_os_string())
+                    .collect::<Vec<_>>()
+            }
+            _ => free.iter().map(OsString::from).collect(),
+        };
 
         Self {
             files,
