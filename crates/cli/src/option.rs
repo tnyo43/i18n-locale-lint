@@ -63,18 +63,17 @@ impl CliOption {
         let files: Vec<OsString> = match free.len() {
             // if the length of "free" is 1, assume it is a glob pattern
             1 => {
-                let mut paths = match glob(free[0].as_str()) {
-                    Ok(paths) => paths,
-                    Err(e) => panic!("{}", e.to_string()),
-                };
-
-                if let Some(error) = paths.find_map(|p| if p.is_err() { Some(p) } else { None }) {
-                    panic!("{:?}", error.unwrap());
+                let pattern = free[0].as_str();
+                let mut files = Vec::new();
+                for entry in glob(pattern)
+                    .unwrap_or_else(|_| panic!("Failed to read glob pattern: {}", pattern))
+                {
+                    match entry {
+                        Ok(path) => files.push(path.to_path_buf().as_os_str().to_os_string()),
+                        Err(e) => panic!("Error: {:?}", e),
+                    }
                 }
-
-                paths
-                    .map(|p| p.unwrap().into_os_string())
-                    .collect::<Vec<_>>()
+                files
             }
             _ => free.iter().map(OsString::from).collect(),
         };
