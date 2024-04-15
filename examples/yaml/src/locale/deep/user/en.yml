@@ -1,0 +1,11 @@
+en:
+  id: ID
+  name: Name
+  email: Email
+  password: Password
+  messages:
+    createNewUser:
+      success: An user has been created.
+      failure:
+        passwordIsTooShort: The password is too short.
+        passwordIncludesInvalidCharacter: The password includes invalid character.

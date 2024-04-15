@@ -10,6 +10,16 @@ If you have your locale files at "src/locale" directory, run:
 $ npx run i18n-locale-lint ./src/locale/**/*.json
 ```
 
+Or if you define an npm script with this library, it's recommended to enclose the glob pattern within double quotes as like below.
+
+```json
+{
+  "scripts": {
+    "i18n-lint": "i18n-locale-lint \"./src/locale/**/*.json\""
+  }
+}
+```
+
 ## Options
 
 | Flag               | Short Flag | Description                                                                   |
