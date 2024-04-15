@@ -65,7 +65,7 @@ impl CliOption {
         if let Some(g) = matches.opt_str("grouped-by") {
             grouped_by = Option::Some(g);
         }
-        let group_size = matches.opt_str("group_size").map(|s| {
+        let group_size = matches.opt_str("group-size").map(|s| {
             s.parse::<usize>()
                 .unwrap_or_else(|_| panic!("invalid group_size value: {}", s))
         });
