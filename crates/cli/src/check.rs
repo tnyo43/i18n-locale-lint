@@ -32,6 +32,22 @@ fn read_json_file(path: &str) -> Result<Value, CliError> {
 }
 
 pub fn check(file_paths: &Vec<&str>) -> i32 {
+    if let Some(expected_size) = option::INSTANCE.get().unwrap().group_size {
+        let actual_size = file_paths.len();
+        if actual_size != expected_size {
+            eprintln!("comparing:");
+            for path in file_paths {
+                eprintln!("- {}", path);
+            }
+
+            display_error(CliError::MismatchedGroupSizeError(
+                expected_size,
+                actual_size,
+            ));
+            return 1;
+        }
+    }
+
     if file_paths.len() <= 1 {
         return 0;
     }
