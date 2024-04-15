@@ -5,6 +5,7 @@ pub enum CliError<'a> {
     FileReadError(Error),
     ParseError(&'a str, String),
     SkipTopLevelError(String),
+    MismatchedGroupSizeError(usize, usize),
 }
 
 impl<'a> Display for CliError<'a> {
@@ -23,6 +24,13 @@ impl<'a> Display for CliError<'a> {
             }
             CliError::SkipTopLevelError(message) => {
                 write!(f, "{}", message)
+            }
+            CliError::MismatchedGroupSizeError(expected, actual) => {
+                write!(
+                    f,
+                    "expected the group size to be {}, but it was actually {}.",
+                    expected, actual
+                )
             }
         }
     }
