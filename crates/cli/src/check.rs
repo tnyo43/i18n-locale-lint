@@ -75,6 +75,7 @@ pub fn check(file_paths: &Vec<&str>) -> i32 {
             Ok(data) => data,
             Err(e) => {
                 display_error(e);
+                status_code = 1;
                 continue;
             }
         };
