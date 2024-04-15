@@ -51,6 +51,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "glob"
+version = "0.3.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d2fabcfbdc87f4758337ca535fb41a6d701b65693ce38287d856d1674551ec9b"
+
+[[package]]
 name = "hashbrown"
 version = "0.14.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -68,6 +74,7 @@ name = "i18n_locale_lint_cli"
 version = "0.0.0"
 dependencies = [
  "getopts",
+ "glob",
  "i18n_locale_lint_ast",
  "i18n_locale_lint_json",
  "i18n_locale_lint_yaml",
