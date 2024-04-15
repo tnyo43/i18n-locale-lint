@@ -8,7 +8,7 @@ pub struct CliOption {
     pub silent: bool,
     pub skip_top_level: bool,
     pub grouped_by: Option<String>,
-    pub group_size: Option<u8>,
+    pub group_size: Option<usize>,
 }
 pub static INSTANCE: OnceCell<CliOption> = OnceCell::new();
 
@@ -66,7 +66,7 @@ impl CliOption {
             grouped_by = Option::Some(g);
         }
         let group_size = matches.opt_str("group_size").map(|s| {
-            s.parse::<u8>()
+            s.parse::<usize>()
                 .unwrap_or_else(|_| panic!("invalid group_size value: {}", s))
         });
 
