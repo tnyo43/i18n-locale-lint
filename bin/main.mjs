@@ -1,14 +1,26 @@
 #!/usr/bin/env node --experimental-wasi-unstable-preview1
 
+import { glob } from "glob";
 import fs from "node:fs";
 import { exit } from "node:process";
 import { WASI } from "wasi";
 
 const PROGRAM = "i18n-locale-lint";
 
+let argv = process.argv.slice(2);
+let globIndex = argv.findIndex((arg) => arg === "--glob");
+if (globIndex !== -1) {
+  const pattern = argv[globIndex + 1];
+  const files = await glob(pattern, { ignore: "node_modules/**" });
+  argv = argv
+    .slice(0, globIndex)
+    .concat(argv.slice(globIndex + 2))
+    .concat(files);
+}
+
 const wasi = new WASI({
   version: "preview1",
-  args: [PROGRAM, ...process.argv.slice(2)],
+  args: [PROGRAM, ...argv],
   preopens: {
     ".": ".",
   },
