@@ -1,7 +1,7 @@
 {
   "name": "i18n-locale-lint-example-yaml",
   "scripts": {
-    "i18n-lint": "i18n-locale-lint \"src/locale/**/*.yml\" --skip-top-level --group-size 2"
+    "i18n-lint": "i18n-locale-lint --glob \"src/locale/**/*.yml\" --skip-top-level --group-size 2"
   },
   "devDependencies": {
     "i18n-locale-lint": "*"

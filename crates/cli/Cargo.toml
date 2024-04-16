@@ -8,6 +8,5 @@ i18n_locale_lint_ast = { path = "../ast" }
 i18n_locale_lint_json = { path = "../json" }
 i18n_locale_lint_yaml = { path = "../yaml" }
 getopts = "0.2"
-glob = "0.3.1"
 once_cell = "1.19.0"
 regex = "1.10.4"
