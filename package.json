@@ -1,6 +1,6 @@
 {
   "name": "i18n-locale-lint",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "checker for locale files",
   "keywords": [
     "lint",
