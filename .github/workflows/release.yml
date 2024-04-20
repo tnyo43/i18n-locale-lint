@@ -3,7 +3,7 @@ name: Release Binaries
 permissions:
   contents: write
 
-on: workflow_dispatch
+on: push
 
 jobs:
   build:
