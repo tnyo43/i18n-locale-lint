@@ -1,0 +1,20 @@
+name: Run on Examples
+
+on:
+  workflow_dispatch:
+
+jobs:
+  examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+      - run: pnpm install
+      - name: Run on Success
+        run: pnpm --filter ./examples/success i18n-lint
+      - name: Run on Failure (expect to fail)
+        run: pnpm --filter ./examples/failure i18n-lint
+        continue-on-error: true
+      - name: Run on Yaml (expect to fail)
+        run: pnpm --filter ./examples/yaml i18n-lint
+        continue-on-error: true

@@ -1,6 +1,6 @@
 {
   "name": "i18n-locale-lint",
-  "version": "0.3.0-test-000",
+  "version": "0.3.0-test-001",
   "description": "checker for locale files",
   "keywords": [
     "lint",
@@ -25,5 +25,9 @@
   "license": "MIT",
   "dependencies": {
     "follow-redirects": "^1.15.6"
+  },
+  "packageManager": "pnpm@9.0.6",
+  "engines": {
+    "pnpm": "9.0.6"
   }
 }

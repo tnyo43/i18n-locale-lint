@@ -43,6 +43,7 @@ packages:
 
   'i18n-locale-lint@file:':
     resolution: {directory: '', type: directory}
+    engines: {pnpm: 9.0.6}
     hasBin: true
 
 snapshots:
