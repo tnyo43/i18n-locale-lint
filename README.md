@@ -28,3 +28,4 @@ Or if you define an npm script with this library, it's recommended to enclose th
 | `--skip-top-level` |            | Assuming the top level is composed solely of a single key, skip it.           |
 | `--grouped-by`     | `-g`       | Group locale file by a regular expression. (`-g "^(.*/)([^/]+)$"` by default) |
 | `--group-size`     |            | If it is specified, fails when the size of a group is not equal to it.        |
+| `--ignore`         |            | Ignore some files by globs. You can set this value multiple times.            |
