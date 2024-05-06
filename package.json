@@ -24,7 +24,6 @@
   "author": "Tomoya Kashifuku<tnyo43@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "glob": "^10.3.12",
     "follow-redirects": "^1.15.6"
   }
 }
