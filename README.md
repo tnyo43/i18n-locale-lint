@@ -15,7 +15,7 @@ Or if you define an npm script with this library, it's recommended to enclose th
 ```json
 {
   "scripts": {
-    "i18n-lint": "i18n-locale-lint --glob \"./src/locale/**/*.json\""
+    "i18n-lint": "i18n-locale-lint \"./src/locale/**/*.json\""
   }
 }
 ```
@@ -28,4 +28,3 @@ Or if you define an npm script with this library, it's recommended to enclose th
 | `--skip-top-level` |            | Assuming the top level is composed solely of a single key, skip it.           |
 | `--grouped-by`     | `-g`       | Group locale file by a regular expression. (`-g "^(.*/)([^/]+)$"` by default) |
 | `--group-size`     |            | If it is specified, fails when the size of a group is not equal to it.        |
-| `--glob`           |            | Check files that match this glob pattern.                                     |
