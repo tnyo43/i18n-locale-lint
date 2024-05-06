@@ -1,10 +1,10 @@
-use std::{ffi::OsString, process::exit};
+use std::process::exit;
 use getopts::Options;
-use glob::glob;
+use glob::{glob, Pattern};
 use once_cell::sync::OnceCell;
 
 pub struct CliOption {
-    pub files: Vec<OsString>,
+    pub files: Vec<String>,
     pub silent: bool,
     pub skip_top_level: bool,
     pub grouped_by: Option<String>,
@@ -76,25 +76,27 @@ impl CliOption {
                 .unwrap_or_else(|_| panic!("invalid group_size value: {}", s))
         });
 
-        let ignorePatterns = matches.opt_strs("ignore");
         let free = matches.free.clone();
-        let files: Vec<OsString> = match free.len() {
+        let mut files = match free.len() {
             // if the length of "free" is 1, assume it is a glob pattern
             1 => {
                 let pattern = free[0].as_str();
-                let mut files = Vec::new();
-                for entry in glob(pattern)
+                let files: Vec<String> = glob(pattern)
                     .unwrap_or_else(|_| panic!("Failed to read glob pattern: {}", pattern))
-                {
-                    match entry {
-                        Ok(path) => files.push(path.to_path_buf().as_os_str().to_os_string()),
+                    .map(|entry| match entry {
+                        Ok(path) => path.to_str().unwrap().to_string(),
                         Err(e) => panic!("Error: {:?}", e),
-                    }
-                }
+                    })
+                    .collect();
                 files
             }
-            _ => free.iter().map(OsString::from).collect(),
+            _ => free,
         };
+        let ignore_patterns = matches.opt_strs("ignore");
+        for ignore in ignore_patterns {
+            let pattern = Pattern::new(&ignore).unwrap();
+            files.retain(|f| !pattern.matches(f));
+        }
 
         Self {
             files,
