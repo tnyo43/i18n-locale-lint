@@ -46,6 +46,12 @@ impl CliOption {
             "If it is specified, fails when the size of a group is not equal to it.",
             "",
         );
+        opts.optmulti(
+            "",
+            "ignore",
+            "Ignore some files by globs. You can set this value multiple times.",
+            "",
+        );
 
         let matches = match opts.parse(args) {
             Ok(m) => m,
@@ -70,6 +76,7 @@ impl CliOption {
                 .unwrap_or_else(|_| panic!("invalid group_size value: {}", s))
         });
 
+        let ignorePatterns = matches.opt_strs("ignore");
         let free = matches.free.clone();
         let files: Vec<OsString> = match free.len() {
             // if the length of "free" is 1, assume it is a glob pattern
