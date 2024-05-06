@@ -1,0 +1,26 @@
+name: Run on Examples
+
+on: push
+
+jobs:
+  examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+      - run: pnpm install
+      - name: Run on Success
+        id: example-success
+        if: ${{ always() }}
+        run: pnpm --filter ./examples/success i18n-lint
+      - name: Run on Failure (expect to fail)
+        id: example-failure
+        if: ${{ always() }}
+        run: pnpm --filter ./examples/failure i18n-lint
+      - name: Run on Yaml (expect to fail)
+        id: example-yaml
+        if: ${{ always() }}
+        run: pnpm --filter ./examples/yaml i18n-lint
+      - name: Check Results
+        if: ${{ steps.example-success.conclusion != 'success' || steps.example-failure.conclusion != 'failure' || steps.example-yaml.conclusion != 'failure' }}
+        run: exit 1
