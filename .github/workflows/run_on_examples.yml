@@ -22,5 +22,9 @@ jobs:
         if: ${{ always() }}
         run: pnpm --filter ./examples/yaml i18n-lint
       - name: Check Results
-        if: ${{ steps.example-success.conclusion != 'success' || steps.example-failure.conclusion != 'failure' || steps.example-yaml.conclusion != 'failure' }}
+        id: check-result
+        if: ${{ always() && steps.example-success.conclusion == 'success' && steps.example-failure.conclusion == 'failure' && steps.example-yaml.conclusion == 'failure' }}
+        run: exit 0
+      - name: Fail
+        if: ${{ always() && steps.example-success.conclusion == 'skipped' }}
         run: exit 1
