@@ -3,7 +3,7 @@
 const path = require("node:path");
 const child_process = require("node:child_process");
 
-const binary_path = path.resolve(__dirname, "./main");
+const binary_path = path.resolve(__dirname, "./executable/main");
 child_process.execFileSync(binary_path, process.argv.slice(2), {
   stdio: "inherit",
 });
