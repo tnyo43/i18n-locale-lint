@@ -1,6 +1,11 @@
 const fs = require("node:fs");
+const path = require("node:path");
 const https = require("follow-redirects/https");
 const { exit } = require("node:process");
+
+const PATH_EXECUTABLE = "bin/executable";
+const PATH_EXECUTABLE_FILE = path.resolve(PATH_EXECUTABLE, "main");
+const PATH_EXECUTABLE_VERSION = path.resolve(PATH_EXECUTABLE, "version.txt");
 
 const DISTRIBUTION_VERSION = require("../package.json").version;
 const { platform, arch } = process;
@@ -82,11 +87,34 @@ async function downloadBinary(urlBase, filePath) {
   });
 }
 
+function makeDirectory() {
+  fs.mkdirSync(PATH_EXECUTABLE, { recursive: true });
+}
+
+function hasDownloaded() {
+  try {
+    const downloadedVersion = fs.readFileSync(PATH_EXECUTABLE_VERSION, "utf8");
+    return downloadedVersion === DISTRIBUTION_VERSION;
+  } catch {
+    return false;
+  }
+}
+
+function createDownloadNote() {
+  fs.writeFileSync(PATH_EXECUTABLE_VERSION, DISTRIBUTION_VERSION, {
+    encoding: "utf8",
+  });
+}
+
 async function main() {
-  const filePath = "bin/main";
+  makeDirectory();
+  if (hasDownloaded()) {
+    return;
+  }
   const urlBase = await downloadAssetUrl();
-  await downloadBinary(urlBase, filePath);
-  fs.chmodSync(filePath, "755");
+  await downloadBinary(urlBase, PATH_EXECUTABLE_FILE);
+  fs.chmodSync(PATH_EXECUTABLE_FILE, "755");
+  createDownloadNote();
 }
 
 main();
