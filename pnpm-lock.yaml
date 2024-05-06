@@ -18,8 +18,8 @@ importers:
   examples/failure:
     devDependencies:
       i18n-locale-lint:
-        specifier: '*'
-        version: 0.2.1
+        specifier: file:../../
+        version: 'file:'
 
   examples/success:
     devDependencies:
@@ -30,8 +30,8 @@ importers:
   examples/yaml:
     devDependencies:
       i18n-locale-lint:
-        specifier: '*'
-        version: 0.2.1
+        specifier: file:../../
+        version: 'file:'
 
 packages:
 
@@ -101,10 +101,6 @@ packages:
   glob@10.3.12:
     resolution: {integrity: sha512-TCNv8vJ+xz4QiqTpfOJA7HvYv+tNIRHKfUWw/q+v2jdgN4ebz+KY9tGx5J4rHP0o84mNP+ApH66HRX8us3Khqg==}
     engines: {node: '>=16 || 14 >=14.17'}
-    hasBin: true
-
-  i18n-locale-lint@0.2.1:
-    resolution: {integrity: sha512-a1Syxtza4f6d/9ILqFaRyESWR7Cs8rdNHKhkBI+pYVLWjUx06xryCJUxwDitytpuWz67JwzTeS62JXns3uFU8g==}
     hasBin: true
 
   'i18n-locale-lint@file:':
@@ -245,10 +241,6 @@ snapshots:
       minimatch: 9.0.4
       minipass: 7.0.4
       path-scurry: 1.10.2
-
-  i18n-locale-lint@0.2.1:
-    dependencies:
-      glob: 10.3.12
 
   'i18n-locale-lint@file:':
     dependencies:
