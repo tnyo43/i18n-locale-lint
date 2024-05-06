@@ -24,8 +24,8 @@ importers:
   examples/success:
     devDependencies:
       i18n-locale-lint:
-        specifier: '*'
-        version: 0.2.1
+        specifier: file:../../
+        version: 'file:'
 
   examples/yaml:
     devDependencies:
@@ -105,6 +105,10 @@ packages:
 
   i18n-locale-lint@0.2.1:
     resolution: {integrity: sha512-a1Syxtza4f6d/9ILqFaRyESWR7Cs8rdNHKhkBI+pYVLWjUx06xryCJUxwDitytpuWz67JwzTeS62JXns3uFU8g==}
+    hasBin: true
+
+  'i18n-locale-lint@file:':
+    resolution: {directory: '', type: directory}
     hasBin: true
 
   is-fullwidth-code-point@3.0.0:
@@ -245,6 +249,13 @@ snapshots:
   i18n-locale-lint@0.2.1:
     dependencies:
       glob: 10.3.12
+
+  'i18n-locale-lint@file:':
+    dependencies:
+      follow-redirects: 1.15.6
+      glob: 10.3.12
+    transitivePeerDependencies:
+      - debug
 
   is-fullwidth-code-point@3.0.0: {}
 

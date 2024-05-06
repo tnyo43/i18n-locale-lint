@@ -9,12 +9,13 @@
   "repository": "github:tnyo43/i18n-locale-lint",
   "homepage": "https://github.com/tnyo43/i18n-locale-lint#readme",
   "bugs": "https://github.com/tnyo43/i18n-locale-lint/issues",
-  "main": "./bin/main.mjs",
+  "main": "./bin/main.js",
   "bin": {
-    "i18n-locale-lint": "./bin/main.mjs"
+    "i18n-locale-lint": "./bin/main.js"
   },
   "files": [
-    "wasm"
+    "bin",
+    "scripts"
   ],
   "scripts": {
     "postinstall": "node scripts/postinstall.js"

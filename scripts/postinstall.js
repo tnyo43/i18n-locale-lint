@@ -83,7 +83,7 @@ async function downloadBinary(urlBase, filePath) {
 }
 
 async function main() {
-  const filePath = "bin/executable/main";
+  const filePath = "bin/main";
   const urlBase = await downloadAssetUrl();
   await downloadBinary(urlBase, filePath);
   fs.chmodSync(filePath, "755");
