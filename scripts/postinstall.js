@@ -31,12 +31,40 @@ if (!binName) {
 }
 
 async function downloadAssetUrl() {
-  const result = await fetch(
-    `https://api.github.com/repos/tnyo43/i18n-locale-lint/releases/tags/v${DISTRIBUTION_VERSION}`
-  );
+  const result = await new Promise((resolve, reject) => {
+    const url = new URL(
+      `https://api.github.com/repos/tnyo43/i18n-locale-lint/releases/tags/v${DISTRIBUTION_VERSION}`
+    );
+    const hostname = url.hostname;
+    const path = url.pathname;
+    https
+      .request(
+        {
+          hostname,
+          path,
+          headers: {
+            Accept: "application/json",
+            "User-Agent": "@tnyo43/i18n-locale-lint",
+            "X-GitHub-Api-Version": "2022-11-28",
+          },
+        },
+        (res) => {
+          let data = "";
+          res.on("data", (chunk) => {
+            data += chunk;
+          });
+          res.on("end", () => {
+            resolve(JSON.parse(data));
+          });
+        }
+      )
+      .on("error", (e) => {
+        reject(e);
+      })
+      .end();
+  });
 
-  const data = await result.json();
-  const asset = data.assets.find((value) => value.name === binName);
+  const asset = result.assets.find((value) => value.name === binName);
   return asset.url;
 }
 
