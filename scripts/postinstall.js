@@ -2,6 +2,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const https = require("follow-redirects/https");
 const { exit } = require("node:process");
+const { execSync } = require("node:child_process");
 
 const PATH_EXECUTABLE = "bin/executable";
 const PATH_EXECUTABLE_FILE = path.resolve(PATH_EXECUTABLE, "main");
@@ -19,9 +20,31 @@ const BIN_NAME_OF_PLATFORM = {
     x64: "main-x86_64-unknown-linux-gnu",
     arm64: "main-aarch64-unknown-linux-gnu",
   },
+  "linux-musl": {
+    x64: "main-x86_64-unknown-linux-musl",
+    arm64: "main-aarch64-unknown-linux-musl",
+  },
 };
 
-const binName = BIN_NAME_OF_PLATFORM[platform]?.[arch];
+function isMusl() {
+  let stderr;
+  try {
+    stderr = execSync("ldd --version", {
+      stdio: ["pipe", "pipe", "pipe"],
+    });
+  } catch (err) {
+    stderr = err.stderr;
+  }
+  if (stderr?.indexOf("musl") > -1) {
+    return true;
+  }
+  return false;
+}
+
+const binName =
+  platform === "linux" && isMusl()
+    ? BIN_NAME_OF_PLATFORM["linux-musl"]?.[arch]
+    : BIN_NAME_OF_PLATFORM[platform]?.[arch];
 
 if (!binName) {
   console.warn(
