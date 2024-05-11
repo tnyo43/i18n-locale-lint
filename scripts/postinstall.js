@@ -2,26 +2,13 @@ const fs = require("node:fs");
 const path = require("node:path");
 const https = require("follow-redirects/https");
 const { exit } = require("node:process");
+const { binName } = require("./binaryName");
 
 const PATH_EXECUTABLE = "bin/executable";
 const PATH_EXECUTABLE_FILE = path.resolve(PATH_EXECUTABLE, "main");
 const PATH_EXECUTABLE_VERSION = path.resolve(PATH_EXECUTABLE, "version.txt");
 
 const DISTRIBUTION_VERSION = require("../package.json").version;
-const { platform, arch } = process;
-
-const BIN_NAME_OF_PLATFORM = {
-  darwin: {
-    x64: "main-x86_64-apple-darwin",
-    arm64: "main-aarch64-apple-darwin",
-  },
-  linux: {
-    x64: "main-x86_64-unknown-linux-gnu",
-    arm64: "main-aarch64-unknown-linux-gnu",
-  },
-};
-
-const binName = BIN_NAME_OF_PLATFORM[platform]?.[arch];
 
 if (!binName) {
   console.warn(
