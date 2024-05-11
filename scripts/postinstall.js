@@ -6,7 +6,6 @@ const { binName } = require("./binaryName");
 
 const PATH_EXECUTABLE = "bin";
 const PATH_EXECUTABLE_FILE = path.resolve(PATH_EXECUTABLE, binName);
-const PATH_EXECUTABLE_VERSION = path.resolve(PATH_EXECUTABLE, "version.txt");
 
 const DISTRIBUTION_VERSION = require("../package.json").version;
 
@@ -102,34 +101,10 @@ async function downloadBinary(urlBase, filePath) {
   });
 }
 
-function makeDirectory() {
-  fs.mkdirSync(PATH_EXECUTABLE, { recursive: true });
-}
-
-function hasDownloaded() {
-  try {
-    const downloadedVersion = fs.readFileSync(PATH_EXECUTABLE_VERSION, "utf8");
-    return downloadedVersion === DISTRIBUTION_VERSION;
-  } catch {
-    return false;
-  }
-}
-
-function createDownloadNote() {
-  fs.writeFileSync(PATH_EXECUTABLE_VERSION, DISTRIBUTION_VERSION, {
-    encoding: "utf8",
-  });
-}
-
 async function main() {
-  makeDirectory();
-  if (hasDownloaded()) {
-    return;
-  }
   const urlBase = await downloadAssetUrl();
   await downloadBinary(urlBase, PATH_EXECUTABLE_FILE);
   fs.chmodSync(PATH_EXECUTABLE_FILE, "755");
-  createDownloadNote();
 }
 
 main();
