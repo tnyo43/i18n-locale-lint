@@ -4,8 +4,8 @@ const https = require("follow-redirects/https");
 const { exit } = require("node:process");
 const { binName } = require("./binaryName");
 
-const PATH_EXECUTABLE = "bin/executable";
-const PATH_EXECUTABLE_FILE = path.resolve(PATH_EXECUTABLE, "main");
+const PATH_EXECUTABLE = "bin";
+const PATH_EXECUTABLE_FILE = path.resolve(PATH_EXECUTABLE, binName);
 const PATH_EXECUTABLE_VERSION = path.resolve(PATH_EXECUTABLE, "version.txt");
 
 const DISTRIBUTION_VERSION = require("../package.json").version;
