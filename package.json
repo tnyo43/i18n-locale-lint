@@ -14,8 +14,7 @@
     "i18n-locale-lint": "./bin/main.js"
   },
   "files": [
-    "bin",
-    "!bin/executable",
+    "bin/main.js",
     "scripts"
   ],
   "scripts": {

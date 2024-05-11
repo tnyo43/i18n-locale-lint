@@ -2,9 +2,10 @@
 
 const path = require("node:path");
 const child_process = require("node:child_process");
+const { binName } = require("../scripts/binaryName");
 
-const binary_path = path.resolve(__dirname, "./executable/main");
-const result = child_process.spawnSync(binary_path, process.argv.slice(2), {
+const binPath = path.resolve(__dirname, binName);
+const result = child_process.spawnSync(binPath, process.argv.slice(2), {
   stdio: "inherit",
 });
 if (result.error) {
