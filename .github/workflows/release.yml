@@ -65,7 +65,13 @@ jobs:
       - name: Build release version
         run: cargo build --verbose --release --target=${{ matrix.target }}
 
+      - name: Copy CLI binary for Windows platform
+        if: matrix.os == 'windows-2022'
+        run: |
+          mkdir dist
+          cp target/${{ matrix.target }}/release/main.exe ./dist/main-${{ matrix.target }}.exe
       - name: Copy CLI binary
+        if: matrix.os != 'windows-2022'
         run: |
           mkdir dist
           cp target/${{ matrix.target }}/release/main ./dist/main-${{ matrix.target }}
