@@ -77,37 +77,16 @@ jobs:
     if: github.event_name != 'pull_request'
     needs: [build]
     runs-on: ubuntu-latest
-    outputs:
-      release-upload-url: ${{ steps.create-release.outputs.upload_url }}
     steps:
       - uses: actions/checkout@v4
-      - name: Create Release
-        id: create-release
-        uses: softprops/action-gh-release@v2
-        if: startsWith(github.ref, 'refs/tags/')
-  attach-assets-to-release:
-    strategy:
-      matrix:
-        target:
-          - x86_64-apple-darwin
-          - aarch64-apple-darwin
-          - x86_64-unknown-linux-gnu
-          - aarch64-unknown-linux-gnu
-          - x86_64-unknown-linux-musl
-          - aarch64-unknown-linux-musl
-
-    needs: [build, release]
-    runs-on: ubuntu-latest
-    steps:
       - uses: actions/download-artifact@v4
         with:
-          name: build-${{ matrix.target }}
-          path: build/
-      - uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          pattern: main-*
+          merge-multiple: true
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
         with:
-          upload_url: ${{ needs.release.outputs.release-upload-url }}
-          asset_path: ./build/main
-          asset_name: main-${{ matrix.target }}
-          asset_content_type: binary/octet-stream
+          files: main-*
+          fail_on_unmatched_files: true
+          generate_release_notes: true
