@@ -14,6 +14,10 @@ const BIN_NAME_OF_PLATFORM = {
     x64: "main-x86_64-unknown-linux-musl",
     arm64: "main-aarch64-unknown-linux-musl",
   },
+  win32: {
+    x64: "main-x86_64-pc-windows-msvc.exe",
+    arm64: "main-aarch64-pc-windows-msvc.exe",
+  },
 };
 
 function isMusl() {
