@@ -22,24 +22,22 @@ pub fn main() {
     }
     let status_code = if failure_count == 0 { 0 } else { 1 };
 
-    if !option::INSTANCE.get().unwrap().silent {
-        println!(
-            "\nChecked {} files, {} groups",
-            option::INSTANCE.get().unwrap().files.len(),
-            &file_groups.len()
-        );
-        if status_code != 0 {
-            print!("\x1b[31m");
-        } else {
-            print!("\x1b[32m");
-        }
-        println!(
-            "Found {} mismatched group{}",
-            failure_count,
-            if failure_count >= 2 { "s" } else { "" }
-        );
-        print!("\x1b[m");
+    println!(
+        "\nChecked {} files, {} groups",
+        option::INSTANCE.get().unwrap().files.len(),
+        &file_groups.len()
+    );
+    if status_code != 0 {
+        print!("\x1b[31m");
+    } else {
+        print!("\x1b[32m");
     }
+    println!(
+        "Found {} mismatched group{}",
+        failure_count,
+        if failure_count >= 2 { "s" } else { "" }
+    );
+    print!("\x1b[m");
 
     exit(status_code)
 }
