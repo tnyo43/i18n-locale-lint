@@ -60,11 +60,18 @@ jobs:
       - uses: Swatinem/rust-cache@v1
       - name: Build release version
         run: cargo build --verbose --release --target=${{ matrix.target }}
+
+      - name: Copy CLI binary
+        run: |
+          mkdir dist
+          cp target/${{ matrix.target }}/release/main ./dist/main-${{ matrix.target }}
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: build-${{ matrix.target }}
-          path: target/${{ matrix.target }}/release/main
+          name: main-${{ matrix.target }}
+          path: ./dist/main-*
+          if-no-files-found: error
 
   release:
     if: github.event_name != 'pull_request'
