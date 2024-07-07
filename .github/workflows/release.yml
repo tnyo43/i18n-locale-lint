@@ -94,9 +94,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: |
-        VERSION=$(echo ${{ github.ref }} | sed -e "s#refs/tags/##g")
-        curl https://api.github.com/repos/tnyo43/i18n-locale-lint/releases/tags/$VERSION | jq 'reduce .assets[] as $item ({}; .[$item.name] = $item.url)' > scripts/assets.json
+      - run: curl https://api.github.com/repos/tnyo43/i18n-locale-lint/releases/tags/${{ github.ref_name }} | jq 'reduce .assets[] as $item ({}; .[$item.name] = $item.url)' > scripts/assets.json
       - uses: peter-evans/create-pull-request@v6
         with:
           body: |
