@@ -98,7 +98,7 @@ jobs:
       - uses: peter-evans/create-pull-request@v6
         with:
           body: |
-            test
+            update "scripts/assets.json"
           branch: update-asset-list
           commit-message: "chore: update asset list"
           draft: true
