@@ -9,6 +9,15 @@ const PATH_EXECUTABLE = "bin";
 const PATH_EXECUTABLE_FILE = path.resolve(PATH_EXECUTABLE, binName);
 
 const DISTRIBUTION_VERSION = require("../package.json").version;
+if (assets.version !== DISTRIBUTION_VERSION) {
+  console.warn(
+    `The asset list is version is wrong:\n
+expected: ${DISTRIBUTION_VERSION}\n
+actual:   ${assets.version}
+`
+  );
+  exit(1);
+}
 
 if (!binName) {
   console.warn(
