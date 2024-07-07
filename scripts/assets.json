@@ -1,0 +1,8 @@
+{
+  "main-aarch64-apple-darwin": "https://api.github.com/repos/tnyo43/i18n-locale-lint/releases/assets/167443797",
+  "main-aarch64-unknown-linux-gnu": "https://api.github.com/repos/tnyo43/i18n-locale-lint/releases/assets/167443795",
+  "main-aarch64-unknown-linux-musl": "https://api.github.com/repos/tnyo43/i18n-locale-lint/releases/assets/167443798",
+  "main-x86_64-apple-darwin": "https://api.github.com/repos/tnyo43/i18n-locale-lint/releases/assets/167443796",
+  "main-x86_64-unknown-linux-gnu": "https://api.github.com/repos/tnyo43/i18n-locale-lint/releases/assets/167443799",
+  "main-x86_64-unknown-linux-musl": "https://api.github.com/repos/tnyo43/i18n-locale-lint/releases/assets/167443800"
+}
