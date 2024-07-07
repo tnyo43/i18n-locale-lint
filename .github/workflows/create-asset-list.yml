@@ -1,0 +1,18 @@
+name: Create asset list
+
+on: push
+
+jobs:
+  create-asset-list:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: curl https://api.github.com/repos/tnyo43/i18n-locale-lint/releases/tags/v0.3.3 | jq 'reduce .assets.[] as $item ({}; .[$item.name] = $item.url)' > scripts/assets.json
+      - uses: peter-evans/create-pull-request@v6
+        with:
+          body: |
+            test
+          branch: update-asset-list
+          commit-message: "chore: update asset list"
+          draft: true
+          title: "chore: update asset list"
