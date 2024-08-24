@@ -1,0 +1,10 @@
+{
+  "name": "@i18n-locale-lint/monorepo",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {},
+  "keywords": [],
+  "author": "Tomoya Kashifuku<tnyo43@gmail.com>",
+  "license": "MIT",
+  "packageManager": "pnpm@9.0.6"
+}

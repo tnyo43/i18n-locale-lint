@@ -6,31 +6,38 @@ settings:
 
 importers:
 
-  .:
-    dependencies:
-      follow-redirects:
-        specifier: ^1.15.6
-        version: 1.15.6
+  .: {}
 
   examples/failure:
     devDependencies:
       i18n-locale-lint:
         specifier: file:../../
-        version: 'file:'
+        version: '@i18n-locale-lint/monorepo@file:'
 
   examples/success:
     devDependencies:
       i18n-locale-lint:
         specifier: file:../../
-        version: 'file:'
+        version: '@i18n-locale-lint/monorepo@file:'
 
   examples/yaml:
     devDependencies:
       i18n-locale-lint:
         specifier: file:../../
-        version: 'file:'
+        version: '@i18n-locale-lint/monorepo@file:'
+
+  packages/i18n-locale-lint:
+    dependencies:
+      follow-redirects:
+        specifier: ^1.15.6
+        version: 1.15.6
 
 packages:
+
+  '@i18n-locale-lint/monorepo@file:':
+    resolution: {directory: '', type: directory}
+    engines: {pnpm: 9.0.6}
+    hasBin: true
 
   follow-redirects@1.15.6:
     resolution: {integrity: sha512-wWN62YITEaOpSK584EZXJafH1AGpO8RVgElfkuXbTOrPX4fIfOyEpW/CsiNd8JdYrAoOvafRTOEnvsO++qCqFA==}
@@ -41,17 +48,8 @@ packages:
       debug:
         optional: true
 
-  'i18n-locale-lint@file:':
-    resolution: {directory: '', type: directory}
-    engines: {pnpm: 9.0.6}
-    hasBin: true
-
 snapshots:
 
-  follow-redirects@1.15.6: {}
+  '@i18n-locale-lint/monorepo@file:': {}
 
-  'i18n-locale-lint@file:':
-    dependencies:
-      follow-redirects: 1.15.6
-    transitivePeerDependencies:
-      - debug
+  follow-redirects@1.15.6: {}
