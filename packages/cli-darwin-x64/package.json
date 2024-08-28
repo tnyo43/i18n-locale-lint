@@ -1,0 +1,16 @@
+{
+  "name": "@i18n-locale-lint/cli-darwin-x64",
+  "version": "0.3.4",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tnyo43/i18n-locale-lint",
+    "directory": "packages/cli-darwin-x64"
+  },
+  "os": [
+    "darwin"
+  ],
+  "cpu": [
+    "x64"
+  ]
+}
