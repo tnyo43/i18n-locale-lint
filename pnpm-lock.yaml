@@ -6,29 +6,31 @@ settings:
 
 importers:
 
-  .:
-    dependencies:
-      follow-redirects:
-        specifier: ^1.15.6
-        version: 1.15.6
+  .: {}
 
   examples/failure:
     devDependencies:
       i18n-locale-lint:
-        specifier: file:../../
-        version: 'file:'
+        specifier: workspace:*
+        version: link:../../packages/i18n-locale-lint
 
   examples/success:
     devDependencies:
       i18n-locale-lint:
-        specifier: file:../../
-        version: 'file:'
+        specifier: workspace:*
+        version: link:../../packages/i18n-locale-lint
 
   examples/yaml:
     devDependencies:
       i18n-locale-lint:
-        specifier: file:../../
-        version: 'file:'
+        specifier: workspace:*
+        version: link:../../packages/i18n-locale-lint
+
+  packages/i18n-locale-lint:
+    dependencies:
+      follow-redirects:
+        specifier: ^1.15.6
+        version: 1.15.6
 
 packages:
 
@@ -41,17 +43,6 @@ packages:
       debug:
         optional: true
 
-  'i18n-locale-lint@file:':
-    resolution: {directory: '', type: directory}
-    engines: {pnpm: 9.0.6}
-    hasBin: true
-
 snapshots:
 
   follow-redirects@1.15.6: {}
-
-  'i18n-locale-lint@file:':
-    dependencies:
-      follow-redirects: 1.15.6
-    transitivePeerDependencies:
-      - debug

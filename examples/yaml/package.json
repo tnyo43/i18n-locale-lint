@@ -4,6 +4,6 @@
     "i18n-lint": "i18n-locale-lint \"src/locale/**/*.yml\" --skip-top-level --group-size 2"
   },
   "devDependencies": {
-    "i18n-locale-lint": "file:../../"
+    "i18n-locale-lint": "workspace:*"
   }
 }

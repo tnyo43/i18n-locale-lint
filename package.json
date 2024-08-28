@@ -1,32 +1,10 @@
 {
-  "name": "i18n-locale-lint",
-  "version": "0.3.4",
-  "description": "checker for locale files",
-  "keywords": [
-    "lint",
-    "i18n"
-  ],
-  "repository": "github:tnyo43/i18n-locale-lint",
-  "homepage": "https://github.com/tnyo43/i18n-locale-lint#readme",
-  "bugs": "https://github.com/tnyo43/i18n-locale-lint/issues",
-  "main": "./bin/main.js",
-  "bin": {
-    "i18n-locale-lint": "./bin/main.js"
-  },
-  "files": [
-    "bin/main.js",
-    "scripts"
-  ],
-  "scripts": {
-    "postinstall": "node scripts/postinstall.js"
-  },
+  "name": "@i18n-locale-lint/monorepo",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {},
+  "keywords": [],
   "author": "Tomoya Kashifuku<tnyo43@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "follow-redirects": "^1.15.6"
-  },
-  "packageManager": "pnpm@9.0.6",
-  "engines": {
-    "pnpm": "9.0.6"
-  }
+  "packageManager": "pnpm@9.0.6"
 }
