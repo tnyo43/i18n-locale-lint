@@ -11,50 +11,86 @@ importers:
   examples/failure:
     devDependencies:
       i18n-locale-lint:
-        specifier: workspace:*
-        version: link:../../packages/i18n-locale-lint
+        specifier: file:../../packages/i18n-locale-lint
+        version: file:packages/i18n-locale-lint
 
   examples/success:
     devDependencies:
       i18n-locale-lint:
-        specifier: workspace:*
-        version: link:../../packages/i18n-locale-lint
+        specifier: file:../../packages/i18n-locale-lint
+        version: file:packages/i18n-locale-lint
 
   examples/yaml:
     devDependencies:
       i18n-locale-lint:
-        specifier: workspace:*
-        version: link:../../packages/i18n-locale-lint
+        specifier: file:../../packages/i18n-locale-lint
+        version: file:packages/i18n-locale-lint
 
-  packages/cli-darwin-arm64: {}
+packages:
 
-  packages/cli-darwin-x64: {}
+  '@i18n-locale-lint/cli-darwin-arm64@file:packages/cli-darwin-arm64':
+    resolution: {directory: packages/cli-darwin-arm64, type: directory}
+    cpu: [arm64]
+    os: [darwin]
 
-  packages/cli-linux-arm64: {}
+  '@i18n-locale-lint/cli-darwin-x64@file:packages/cli-darwin-x64':
+    resolution: {directory: packages/cli-darwin-x64, type: directory}
+    cpu: [x64]
+    os: [darwin]
 
-  packages/cli-linux-arm64-musl: {}
+  '@i18n-locale-lint/cli-linux-arm64-musl@file:packages/cli-linux-arm64-musl':
+    resolution: {directory: packages/cli-linux-arm64-musl, type: directory}
+    cpu: [arm64]
+    os: [linux]
+    libc: [musl]
 
-  packages/cli-linux-x64: {}
+  '@i18n-locale-lint/cli-linux-arm64@file:packages/cli-linux-arm64':
+    resolution: {directory: packages/cli-linux-arm64, type: directory}
+    cpu: [arm64]
+    os: [linux]
+    libc: [glibc]
 
-  packages/cli-linux-x64-musl: {}
+  '@i18n-locale-lint/cli-linux-x64-musl@file:packages/cli-linux-x64-musl':
+    resolution: {directory: packages/cli-linux-x64-musl, type: directory}
+    cpu: [x64]
+    os: [linux]
+    libc: [musl]
 
-  packages/i18n-locale-lint:
+  '@i18n-locale-lint/cli-linux-x64@file:packages/cli-linux-x64':
+    resolution: {directory: packages/cli-linux-x64, type: directory}
+    cpu: [x64]
+    os: [linux]
+    libc: [glibc]
+
+  i18n-locale-lint@file:packages/i18n-locale-lint:
+    resolution: {directory: packages/i18n-locale-lint, type: directory}
+    hasBin: true
+
+snapshots:
+
+  '@i18n-locale-lint/cli-darwin-arm64@file:packages/cli-darwin-arm64':
+    optional: true
+
+  '@i18n-locale-lint/cli-darwin-x64@file:packages/cli-darwin-x64':
+    optional: true
+
+  '@i18n-locale-lint/cli-linux-arm64-musl@file:packages/cli-linux-arm64-musl':
+    optional: true
+
+  '@i18n-locale-lint/cli-linux-arm64@file:packages/cli-linux-arm64':
+    optional: true
+
+  '@i18n-locale-lint/cli-linux-x64-musl@file:packages/cli-linux-x64-musl':
+    optional: true
+
+  '@i18n-locale-lint/cli-linux-x64@file:packages/cli-linux-x64':
+    optional: true
+
+  i18n-locale-lint@file:packages/i18n-locale-lint:
     optionalDependencies:
-      '@i18n-locale-lint/cli-darwin-arm64':
-        specifier: file:../cli-darwin-arm64
-        version: link:../cli-darwin-arm64
-      '@i18n-locale-lint/cli-darwin-x64':
-        specifier: file:../cli-darwin-x64
-        version: link:../cli-darwin-x64
-      '@i18n-locale-lint/cli-linux-arm64':
-        specifier: file:../cli-linux-arm64
-        version: link:../cli-linux-arm64
-      '@i18n-locale-lint/cli-linux-arm64-musl':
-        specifier: file:../cli-linux-arm64-musl
-        version: link:../cli-linux-arm64-musl
-      '@i18n-locale-lint/cli-linux-x64':
-        specifier: file:../cli-linux-x64
-        version: link:../cli-linux-x64
-      '@i18n-locale-lint/cli-linux-x64-musl':
-        specifier: file:../cli-linux-x64-musl
-        version: link:../cli-linux-x64-musl
+      '@i18n-locale-lint/cli-darwin-arm64': file:packages/cli-darwin-arm64
+      '@i18n-locale-lint/cli-darwin-x64': file:packages/cli-darwin-x64
+      '@i18n-locale-lint/cli-linux-arm64': file:packages/cli-linux-arm64
+      '@i18n-locale-lint/cli-linux-arm64-musl': file:packages/cli-linux-arm64-musl
+      '@i18n-locale-lint/cli-linux-x64': file:packages/cli-linux-x64
+      '@i18n-locale-lint/cli-linux-x64-musl': file:packages/cli-linux-x64-musl
