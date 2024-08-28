@@ -3,16 +3,16 @@ const { platform, arch } = process;
 
 const BIN_NAME_OF_PLATFORM = {
   darwin: {
-    x64: "main-x86_64-apple-darwin",
-    arm64: "main-aarch64-apple-darwin",
+    x64: "@i18n-locale-lint/cli-darwin-x64/main",
+    arm64: "@i18n-locale-lint/cli-darwin-arm64/main",
   },
   linux: {
-    x64: "main-x86_64-unknown-linux-gnu",
-    arm64: "main-aarch64-unknown-linux-gnu",
+    x64: "@i18n-locale-lint/cli-linux-x64/main",
+    arm64: "@i18n-locale-lint/cli-linux-arm64/main",
   },
   "linux-musl": {
-    x64: "main-x86_64-unknown-linux-musl",
-    arm64: "main-aarch64-unknown-linux-musl",
+    x64: "@i18n-locale-lint/cli-linux-x64-musl/main",
+    arm64: "@i18n-locale-lint/cli-linux-arm64-musl/main",
   },
 };
 
