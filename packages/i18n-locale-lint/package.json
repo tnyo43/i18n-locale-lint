@@ -1,6 +1,6 @@
 {
   "name": "i18n-locale-lint",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "checker for locale files",
   "keywords": [
     "lint",
@@ -23,11 +23,11 @@
   "author": "Tomoya Kashifuku<tnyo43@gmail.com>",
   "license": "MIT",
   "optionalDependencies": {
-    "@i18n-locale-lint/cli-darwin-arm64": "file:../cli-darwin-arm64",
-    "@i18n-locale-lint/cli-darwin-x64": "file:../cli-darwin-x64",
-    "@i18n-locale-lint/cli-linux-arm64": "file:../cli-linux-arm64",
-    "@i18n-locale-lint/cli-linux-x64": "file:../cli-linux-x64",
-    "@i18n-locale-lint/cli-linux-arm64-musl": "file:../cli-linux-arm64-musl",
-    "@i18n-locale-lint/cli-linux-x64-musl": "file:../cli-linux-x64-musl"
+    "@i18n-locale-lint/cli-darwin-arm64": "0.3.5",
+    "@i18n-locale-lint/cli-darwin-x64": "0.3.5",
+    "@i18n-locale-lint/cli-linux-arm64": "0.3.5",
+    "@i18n-locale-lint/cli-linux-x64": "0.3.5",
+    "@i18n-locale-lint/cli-linux-arm64-musl": "0.3.5",
+    "@i18n-locale-lint/cli-linux-x64-musl": "0.3.5"
   }
 }
