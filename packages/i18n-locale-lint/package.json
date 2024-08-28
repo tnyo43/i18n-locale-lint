@@ -21,14 +21,8 @@
     "bin/main.js",
     "scripts"
   ],
-  "scripts": {
-    "postinstall": "node scripts/postinstall.js"
-  },
   "author": "Tomoya Kashifuku<tnyo43@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "follow-redirects": "^1.15.6"
-  },
   "optionalDependencies": {
     "@i18n-locale-lint/cli-darwin-arm64": "file:../cli-darwin-arm64",
     "@i18n-locale-lint/cli-darwin-x64": "file:../cli-darwin-x64",

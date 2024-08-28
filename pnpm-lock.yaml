@@ -39,10 +39,6 @@ importers:
   packages/cli-linux-x64-musl: {}
 
   packages/i18n-locale-lint:
-    dependencies:
-      follow-redirects:
-        specifier: ^1.15.6
-        version: 1.15.6
     optionalDependencies:
       '@i18n-locale-lint/cli-darwin-arm64':
         specifier: file:../cli-darwin-arm64
@@ -62,18 +58,3 @@ importers:
       '@i18n-locale-lint/cli-linux-x64-musl':
         specifier: file:../cli-linux-x64-musl
         version: link:../cli-linux-x64-musl
-
-packages:
-
-  follow-redirects@1.15.6:
-    resolution: {integrity: sha512-wWN62YITEaOpSK584EZXJafH1AGpO8RVgElfkuXbTOrPX4fIfOyEpW/CsiNd8JdYrAoOvafRTOEnvsO++qCqFA==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-
-snapshots:
-
-  follow-redirects@1.15.6: {}
