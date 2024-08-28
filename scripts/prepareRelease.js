@@ -39,13 +39,9 @@ const BIN_AND_PATH_NAME_OF_PLATFORM = {
 };
 
 const DISTRIBUTION_VERSION = require("../package.json").version;
+console.log(`distribution version: ${DISTRIBUTION_VERSION}`);
 if (typeof DISTRIBUTION_VERSION !== "string") {
-  console.warn(
-    `The asset list is version is wrong:\n
-expected: ${DISTRIBUTION_VERSION}\n
-actual:   ${assets.version}
-`
-  );
+  console.warn(`The asset list version is wrong`);
   exit(1);
 }
 
