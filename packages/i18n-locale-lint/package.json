@@ -6,7 +6,11 @@
     "lint",
     "i18n"
   ],
-  "repository": "github:tnyo43/i18n-locale-lint",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tnyo43/i18n-locale-lint",
+    "directory": "packages/i18n-locale-lint"
+  },
   "homepage": "https://github.com/tnyo43/i18n-locale-lint#readme",
   "bugs": "https://github.com/tnyo43/i18n-locale-lint/issues",
   "main": "./bin/main.js",
@@ -24,5 +28,13 @@
   "license": "MIT",
   "dependencies": {
     "follow-redirects": "^1.15.6"
+  },
+  "optionalDependencies": {
+    "@i18n-locale-lint/cli-darwin-arm64": "file:../cli-darwin-arm64",
+    "@i18n-locale-lint/cli-darwin-x64": "file:../cli-darwin-x64",
+    "@i18n-locale-lint/cli-linux-arm64": "file:../cli-linux-arm64",
+    "@i18n-locale-lint/cli-linux-x64": "file:../cli-linux-x64",
+    "@i18n-locale-lint/cli-linux-arm64-musl": "file:../cli-linux-arm64-musl",
+    "@i18n-locale-lint/cli-linux-x64-musl": "file:../cli-linux-x64-musl"
   }
 }
